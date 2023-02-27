@@ -1,0 +1,14 @@
+@import "./helpers/medias.scss";
+@import "./helpers/colors.scss";
+@import "./helpers/medias.scss";
+@import "./helpers/misc.scss";
+
+.landing-page {
+    .title, .section-title {
+        font-weight: bold;
+        margin-bottom: 1rem;
+    }
+    .section {
+        margin: 1rem 0;
+    }    
+}

@@ -1,0 +1,44 @@
+@import "./styles/helpers/colors.scss";
+@import "./styles/helpers/medias.scss";
+@import "./styles/helpers/misc.scss";
+
+.app {
+    display: flex;
+    flex-direction: column; 
+    min-height: 100vh;
+    
+    &-content {
+        padding: 40px;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .text-clip {
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    
+    .word-break {
+        word-break: break-word;
+    }
+    
+    button, .button {
+        background: none;
+        text-decoration: none;
+        color: inherit;
+        border: none;
+        font: inherit;
+        cursor: pointer;
+        outline: inherit;
+    }
+    
+    html::-webkit-scrollbar {
+        width: 10px;
+        background-color: var(--colorPrimary100); 
+    }
+    
+    html::-webkit-scrollbar-thumb {
+        background: var(--colorPrimary); 
+    }
+}
