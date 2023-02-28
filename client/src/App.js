@@ -2,18 +2,34 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-d
 import './app.scss';
 import LandingPage from "./components/landing-page/LandingPage";
 import ErrorPage from "./components/ErrorPage";
+import Header from "./components/Header";
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: "#2acc8e"
+    },
+    secondary: {
+      main: "#470bd3"
+    }
+  }
+});
 
 function App() {
   return (
-    <Router>
-      <div className="app">
-        <Routes>
-            <Route path="/" element={<LandingPage />} />
-            <Route path='/404' element={<ErrorPage />} />
-            <Route path="*" element={<Navigate to="/404" replace />}/> 
-        </Routes>
-      </div>
-    </Router>
+    <ThemeProvider theme={theme}>
+      <Router>
+        <div className="app">
+          <Header />
+          <Routes>
+              <Route path="/" element={<LandingPage />} />
+              <Route path='/404' element={<ErrorPage />} />
+              <Route path="*" element={<Navigate to="/404" replace />}/> 
+          </Routes>
+        </div>
+      </Router>
+    </ThemeProvider>
   );
 }
 

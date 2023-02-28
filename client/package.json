@@ -5,6 +5,7 @@
   "dependencies": {
     "@emotion/react": "^11.10.6",
     "@emotion/styled": "^11.10.6",
+    "@mui/icons-material": "^5.11.9",
     "@mui/material": "^5.11.10",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
@@ -14,7 +15,12 @@
     "react-router-dom": "^6.8.1",
     "react-scripts": "5.0.1",
     "sass": "^1.58.3",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "@heroicons/react": "2.0.12",
+    "@material-tailwind/react": "1.2.4",
+    "apexcharts": "3.35.5",
+    "prop-types": "15.8.1",
+    "react-apexcharts": "1.4.0"
   },
   "scripts": {
     "start": "react-scripts start",
