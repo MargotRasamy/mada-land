@@ -38,6 +38,4 @@ npx hardhat compile
 npx hardhat run scripts/deploy.js --network [chosen-network]
 ```
 
-Après avoir déployé, on obtient l'adresse du contrat et l'abi dans artifacs/contracts/[nom_contrat].json. On copie le contenu de ce fichier et on le copie dans le front.
-
-Contract address : 0x4EAa1ee57059316f0E5fEA1ec303Cbb4388AF48a
+Après avoir déployé, on obtient l'adresse du contrat et l'abi dans artifacts/contracts/[nom_contrat].json. L'abi sera utilisé par le clien pour invoquer le contrat.
