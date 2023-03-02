@@ -17,6 +17,10 @@ const theme = createTheme({
     header: {
       main: "#EDEDED"
     },
+    buttonMain: {
+      main: "#4d7df7",
+      contrastText: "#fff"
+    },
   }
 });
 

@@ -1,8 +1,11 @@
 @import "./styles/helpers/colors.scss";
 @import "./styles/helpers/medias.scss";
 @import "./styles/helpers/misc.scss";
+@import "./styles/helpers/fonts.scss";
 @import "./styles/helpers/reset.scss";
 @import "./styles/helpers/spaces.scss";
+// @import "./styles/custom-bootstrap.scss";
+// @import "~bootstrap/scss/bootstrap";
 
 .app {
     font-family: 'Helvetica Neue';
@@ -27,15 +30,15 @@
         word-break: break-word;
     }
     
-    button, .button {
-        background: none;
-        text-decoration: none;
-        color: inherit;
-        border: none;
-        font: inherit;
-        cursor: pointer;
-        outline: inherit;
-    }
+    // button, .button {
+    //     background: none;
+    //     text-decoration: none;
+    //     color: inherit;
+    //     border: none;
+    //     font: inherit;
+    //     cursor: pointer;
+    //     outline: inherit;
+    // }
     
     html::-webkit-scrollbar {
         width: 10px;

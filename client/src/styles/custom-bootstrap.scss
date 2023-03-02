@@ -1,0 +1,8 @@
+/* make the customizations */
+$theme-colors: (
+    "info": rgb(52, 149, 235),
+    "danger": rgb(173, 86, 86)
+);
+
+/* import bootstrap to set changes */
+@import "~bootstrap/scss/bootstrap";
