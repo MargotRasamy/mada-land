@@ -12,6 +12,8 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
+import '../styles/header.scss';
+import Logo from '../assets/logos/logo-black.png';
 
 const pages = ['Transactions', 'Land registered', 'Citizens', 'Assets'];
 const settings = ['Profile', 'Account', 'Logout'];
@@ -36,10 +38,10 @@ function Header() {
   };
 
   return (
-    <AppBar position="static" color="secondary">
+    <AppBar position="static" color='header' className='header'>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
+          <img src={Logo} alt="mada-land-logo" width="20px" height="20px" className="mr-2" />
           <Typography
             variant="h6"
             noWrap
@@ -48,7 +50,7 @@ function Header() {
             sx={{
               mr: 2,
               display: { xs: 'none', md: 'flex' },
-              fontFamily: 'monospace',
+              fontFamily: 'Roboto',
               fontWeight: 700,
               letterSpacing: '.3rem',
               color: 'inherit',
@@ -104,7 +106,6 @@ function Header() {
               mr: 2,
               display: { xs: 'flex', md: 'none' },
               flexGrow: 1,
-              fontFamily: 'monospace',
               fontWeight: 700,
               letterSpacing: '.3rem',
               color: 'inherit',
@@ -128,7 +129,6 @@ function Header() {
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <p>Username</p>
                 <Avatar alt="User avatar" src="/static/images/avatar/2.jpg" />
               </IconButton>
             </Tooltip>

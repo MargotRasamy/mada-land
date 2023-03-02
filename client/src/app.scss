@@ -5,9 +5,11 @@
 @import "./styles/helpers/spaces.scss";
 
 .app {
+    font-family: 'Helvetica Neue';
     display: flex;
     flex-direction: column; 
     min-height: 100vh;
+    background-color: var(--colorVeryLightGrey);
     
     &-content {
         padding: 40px;
