@@ -18,7 +18,7 @@ const theme = createTheme({
       main: "#EDEDED"
     },
     buttonMain: {
-      main: "#4d7df7",
+      main: "#4d4595",
       contrastText: "#fff"
     },
   }

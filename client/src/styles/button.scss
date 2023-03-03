@@ -1,0 +1,41 @@
+@import url('https://fonts.googleapis.com/css?family=Michroma');
+.button {
+    padding: 10px 30px;
+    border-radius: 4px;
+    
+    &-color {
+        background-color: var(--colorPrimary);
+        &:hover {
+            background-color: var(--colorPrimary200);
+        }
+    }
+
+    &-link {
+        background: none;
+        text-decoration: underline;
+    }
+
+    // Simple buttons
+    &-simple {
+        &.button-lg {
+            // font-family: Michroma;
+            font-size: 24px;
+            margin: var(--spaceL) 0;
+        }
+        &.button-md {
+            font-size: 20px;
+            margin: var(--spaceM) 0;
+        }
+        &.button-sm {
+            font-size: 16px;
+            margin: var(--spaceS) 0;
+        }
+    }
+
+    & .cta-button {
+        @include mobile {
+           width: 100%; 
+        }
+    }
+}
+

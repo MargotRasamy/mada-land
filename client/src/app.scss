@@ -7,6 +7,13 @@
 // @import "./styles/custom-bootstrap.scss";
 // @import "~bootstrap/scss/bootstrap";
 
+// Import styles 
+@import 'styles/button.scss';
+@import 'styles/simple-link.scss';
+@import 'styles/loader-spinner.scss';
+@import 'styles/overlay.scss';
+
+
 .app {
     font-family: 'Helvetica Neue';
     display: flex;
@@ -24,13 +31,19 @@
     .text-clip {
         overflow: hidden;
         text-overflow: ellipsis;
+        &-size { 
+            max-width: 230px;
+            @include small {
+                max-width: 100%;
+            }
+        }
     }
-    
+      
     .word-break {
-        word-break: break-word;
+    word-break: break-word;
     }
-    
-    // button, .button {
+      
+    // button {
     //     background: none;
     //     text-decoration: none;
     //     color: inherit;
@@ -39,6 +52,15 @@
     //     cursor: pointer;
     //     outline: inherit;
     // }
+
+    * {
+        box-sizing: border-box;
+    }
+    
+    a {
+        text-decoration: none;
+        color: inherit;
+    }
     
     html::-webkit-scrollbar {
         width: 10px;

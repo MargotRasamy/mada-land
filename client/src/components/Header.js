@@ -7,18 +7,24 @@ import Typography from '@mui/material/Typography';
 import Menu from '@mui/material/Menu';
 import MenuIcon from '@mui/icons-material/Menu';
 import Container from '@mui/material/Container';
-import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
-import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
-import AdbIcon from '@mui/icons-material/Adb';
 import '../styles/header.scss';
 import Logo from '../assets/logos/logo-black.png';
+import { connectWallet, getUsersContract } from '../context/utils/ContractsRequests';
+import { GlobalContext } from '../context/GlobalContext';
+
 
 const pages = ['Transactions', 'Land registered', 'Citizens', 'Assets'];
 const settings = ['Profile', 'Account', 'Logout'];
 
+// destructuring window.ethereum
+
+
+
 function Header() {
+  
+  const { state, dispatch } = React.useContext(GlobalContext);
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
@@ -37,28 +43,54 @@ function Header() {
     setAnchorElUser(null);
   };
 
+  const logoDisplay = (isLargeScreen) => {
+    return <>
+      <Box sx={{ display: isLargeScreen ? { xs: 'none', md: 'flex' } : { xs: 'flex', md: 'none' } }}>
+        <img src={Logo} alt="mada-land" width="20px" height="20px" className="mr-2" />
+      </Box>
+      <Typography
+        variant={isLargeScreen ? 'h6' : 'h5'}
+        noWrap
+        component="a"
+        href="/"
+        sx={{
+          mr: 2,
+          fontFamily: 'Poppins',
+          fontWeight: 700,
+          letterSpacing: '.3rem',
+          color: 'black',
+          textDecoration: 'none',
+          display: isLargeScreen ? { xs: 'none', md: 'flex' } : { xs: 'flex', md: 'none' },
+          flexGrow: isLargeScreen ? 0 : 1,
+        }}
+      >
+        Mada Land
+      </Typography> </>
+  }
+
+  const getRegistryOffices = async () => {
+    try {
+      const contract = await getUsersContract();
+      const res = await contract.getRegistryOffices();
+      console.log(res);
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  const connectToWallet = async () => {
+    const accountConnected = await connectWallet();
+    const contract = await getUsersContract();
+    const office = await contract.getRegistryOffice(accountConnected);
+    
+    dispatch({type: 'SET_USER_DATA', payload: {publicAddress: accountConnected, data: office}});
+  }
+
   return (
     <AppBar position="static" color='header' className='header'>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <img src={Logo} alt="mada-land-logo" width="20px" height="20px" className="mr-2" />
-          <Typography
-            variant="h6"
-            noWrap
-            component="a"
-            href="/"
-            sx={{
-              mr: 2,
-              display: { xs: 'none', md: 'flex' },
-              fontFamily: 'Roboto',
-              fontWeight: 700,
-              letterSpacing: '.3rem',
-              color: 'black',
-              textDecoration: 'none',
-            }}
-          >
-            Mada Land
-          </Typography>
+          {logoDisplay(true)}
 
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
             <IconButton
@@ -96,24 +128,7 @@ function Header() {
               ))}
             </Menu>
           </Box>
-          <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
-          <Typography
-            variant="h5"
-            noWrap
-            component="a"
-            href=""
-            sx={{
-              mr: 2,
-              display: { xs: 'flex', md: 'none' },
-              flexGrow: 1,
-              fontWeight: 700,
-              letterSpacing: '.3rem',
-              color: 'black',
-              textDecoration: 'none',
-            }}
-          >
-            LOGO
-          </Typography>
+          {logoDisplay(false)}
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page) => (
               <Button
@@ -127,7 +142,21 @@ function Header() {
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title="Open settings">
+            
+          <Button color="buttonMain" variant="contained"
+            onClick={connectToWallet}
+            sx={{ my: 2, display: 'block' }}
+          >
+            Connect wallet
+          </Button>
+          <Button color="buttonMain" variant="contained"
+            onClick={getRegistryOffices}
+            sx={{ my: 2, display: 'block' }}
+          >
+            Get RegistryOffice
+          </Button>
+            
+            {/* <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                 <Avatar alt="User avatar" src="/static/images/avatar/2.jpg" />
               </IconButton>
@@ -153,7 +182,7 @@ function Header() {
                   <Typography textAlign="center">{setting}</Typography>
                 </MenuItem>
               ))}
-            </Menu>
+            </Menu> */}
           </Box>
         </Toolbar>
       </Container>

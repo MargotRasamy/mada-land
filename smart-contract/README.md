@@ -27,6 +27,12 @@ ETHERSCAN_API_KEY=
 To deploy, run:
 
 ```shell
+npm run deploy
+```
+
+Or consecutively :
+
+```shell
 npx hardhat clean
 ```
 

@@ -8,7 +8,7 @@ require("@nomicfoundation/hardhat-toolbox");
 module.exports = {
   solidity: "0.8.18",
   networks: {
-    sepolia: {
+    main: {
       // Url fournit par Infura ou Alchemy pour le déploiement
       url: process.env.RPC_URL,
       // A trouver sur metamask, account details (exporter la clé privée)
