@@ -74,7 +74,7 @@ const UserChoice = () => {
                     break;
             }
         }
-    }, [state.userData.isConnected]);
+    }, [state.userData.isConnected, state.userData.userType, navigateTo, dispatch]);
 
     return (
         <div className="app-content user-choice">
