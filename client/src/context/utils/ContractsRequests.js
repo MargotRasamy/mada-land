@@ -1,26 +1,52 @@
 import { ethers } from 'ethers';
 import { usersContractABI, usersContractAddress } from '../ContractsData';
+import { CustomError } from './CustomError';
 const { ethereum } = window;
 
-
-// Get a smart-contract info
-export const getEthereumContract = (address, abi) => {
-    const provider = new ethers.providers.Web3Provider(ethereum);
-    // Address of the wallet of deployed the contract
-    const signer = provider.getSigner();
-    // get the transaction contract
-    const smartContract = new ethers.Contract(address, abi, signer);
-
+// Get a smart-contract info READONLY
+export const getEthereumContract_READONLY = (address, abi) => {
+  try {
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    const contract = new ethers.Contract(
+      address,
+      abi,
+      provider
+    );
     console.log({
-        provider,
-        signer,
-        smartContract
-    })
-    return smartContract;
+      address,
+      abi,
+      provider
+    });
+    return contract;
+  } catch (error) {
+    throw new CustomError(error, 'error');
+  }
 }
+
+// Get a smart-contract info read/write
+export const getEthereumContract_RW = (address, abi) => {
+  try {
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    const signer = provider.getSigner();
+    const contract = new ethers.Contract(
+      address,
+      abi,
+      signer
+    );
+    console.log({
+      address,
+      abi,
+      signer
+    });
+    return contract;
+  } catch (error) {
+    throw new CustomError(error, 'error');
+  }
+} 
+
 // Get usersContract
-export const getUsersContract = () => {
-    return getEthereumContract(usersContractAddress, usersContractABI)
+export const getUsersContract = (readonly = true) => {
+    return readonly === true ? getEthereumContract_READONLY(usersContractAddress, usersContractABI) : getEthereumContract_RW(usersContractAddress, usersContractABI);
 }
 
 export const connectWallet = async () => {
@@ -30,11 +56,61 @@ export const connectWallet = async () => {
         console.log('Connected account : ', accounts[0]);
         return accounts[0];
     } catch (error) {
-        console.log('No ethereum object.');
-        throw new Error('No ethereum object.');
+      if (error.code === -32002) {
+        throw new CustomError('We are already trying to process your account. Please open your metamask browser extension.', 'warning');
+      } else {
+        throw new CustomError('Could not find your ethereum metamask account. Please try again or make sure to have metamask installed.', 'error');
+      }
     }
 }
 
+export const checkWalletConnected = async () => {
+  try {
+      checkWalletInstalled();
+      const accounts = await ethereum.request({ method: 'eth_accounts' });
+      return accounts;
+  } catch (error) {
+    if (error.code === -32002) {
+      throw new CustomError('We are already trying to process your account. Please open your metamask browser extension.', 'warning');
+    } else {
+      throw new CustomError('Could not find your ethereum metamask account. Please try again or make sure to have metamask installed.', 'error');
+    }
+  }
+}
+
+const connectUserRegistryOffice = async (accountConnected) => {
+  try {
+      const contract = await getUsersContract(false);
+      const office = await contract.getRegistryOffice(accountConnected);
+
+      return office;
+  } catch (e) {
+    throw new CustomError(e, 'error');
+  }
+}
+
+export const checkUserConnected = async () => {
+  const accountsConnected = await checkWalletConnected();
+  if (accountsConnected.length === 0) {
+    return {
+      isConnected: false,
+      publicAddress: '',
+      data: {}
+    }
+  } else {
+    let currentAccount = accountsConnected[0];
+    let office = await connectUserRegistryOffice(currentAccount);
+    return {      
+      isConnected: true,
+      publicAddress: currentAccount.publicAddress,
+      data: {
+        district: office.district,
+        publicAddress: office.publicAddress
+      }
+    }
+  }
+}
+
 const checkWalletInstalled = () => {
-    if (!ethereum) { alert('Please install metamask') };
+    if (!ethereum) { throw new CustomError('Please install metamask', 'info'); };
 }

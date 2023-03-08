@@ -1,17 +1,24 @@
 import { useReducer, createContext } from "react";
+import { notificationsReducer } from "./reducers/NotificationsReducer";
+import { registryOfficesReducer } from "./reducers/RegistryOfficesReducer";
 import { userReducer } from "./reducers/UserReducer";
+import { checkUserConnected } from "./utils/ContractsRequests";
+import { UserType } from "./utils/UserType";
 
 // initial state
 const initialState = {
     userData : {
-        isConnected: false,
-        data: {
-          district: '',
-          publicAddress: ''
-        },
-        publicAddress: ''
+        userType: UserType.RegistryOffice,
+        isConnected: checkUserConnected().isConnected,
+        data: checkUserConnected().data,
+        publicAddress: checkUserConnected().publicAddress
     },
-    registryOffices: []
+    registryOffices: [],
+    notifications: {
+      autoHideDuration : 4000,
+      notificationsData : [
+      ]
+    }
 };
 
 // Create context
@@ -25,7 +32,7 @@ const combineReducers = (...reducers) => (state, action) => {
 
 // Context provider
 const Provider = ({ children }) => {
-  const [state, dispatch] = useReducer(combineReducers(userReducer), initialState);
+  const [state, dispatch] = useReducer(combineReducers(userReducer, notificationsReducer, registryOfficesReducer), initialState);
   const value = { state, dispatch };
 
   return <GlobalContext.Provider value={value}>{children}</GlobalContext.Provider>;

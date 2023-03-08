@@ -68,19 +68,9 @@ function Header() {
       </Typography> </>
   }
 
-  const getRegistryOffices = async () => {
-    try {
-      const contract = await getUsersContract();
-      const res = await contract.getRegistryOffices();
-      console.log(res);
-    } catch (e) {
-      console.log(e);
-    }
-  }
-
   const connectToWallet = async () => {
     const accountConnected = await connectWallet();
-    const contract = await getUsersContract();
+    const contract = await getUsersContract(false);
     const office = await contract.getRegistryOffice(accountConnected);
     
     dispatch({type: 'SET_USER_DATA', payload: {publicAddress: accountConnected, data: office}});
@@ -148,12 +138,6 @@ function Header() {
             sx={{ my: 2, display: 'block' }}
           >
             Connect wallet
-          </Button>
-          <Button color="buttonMain" variant="contained"
-            onClick={getRegistryOffices}
-            sx={{ my: 2, display: 'block' }}
-          >
-            Get RegistryOffice
           </Button>
             
             {/* <Tooltip title="Open settings">
