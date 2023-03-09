@@ -1,5 +1,7 @@
+// Need to have the same values as the smart-contract enum
 export const UserType = {
-    RegistryOffice: 'registry',
-    Citizen: 'citizen'
+    Citizen: '1',
+    RegistryOffice: '2',
+    Admin: '3'
 }
   

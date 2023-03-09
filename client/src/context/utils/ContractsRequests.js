@@ -57,7 +57,7 @@ export const connectWallet = async () => {
         return accounts[0];
     } catch (error) {
       if (error.code === -32002) {
-        throw new CustomError('We are already trying to process your account. Please open your metamask browser extension.', 'warning');
+        throw new CustomError('We are already trying to process your account. Please open your metamask browser extension.', 'info');
       } else {
         throw new CustomError('Could not find your ethereum metamask account. Please try again or make sure to have metamask installed.', 'error');
       }
@@ -78,12 +78,21 @@ export const checkWalletConnected = async () => {
   }
 }
 
-const connectUserRegistryOffice = async (accountConnected) => {
+export const getUserRegistryOffice = async (accountConnected) => {
   try {
       const contract = await getUsersContract(false);
       const office = await contract.getRegistryOffice(accountConnected);
-
       return office;
+  } catch (e) {
+    throw new CustomError(e, 'error');
+  }
+}
+
+export const getUser = async (accountConnected) => {
+  try {
+      const contract = await getUsersContract(false);
+      const user = await contract.getUser(accountConnected);
+      return user;
   } catch (e) {
     throw new CustomError(e, 'error');
   }
@@ -99,10 +108,10 @@ export const checkUserConnected = async () => {
     }
   } else {
     let currentAccount = accountsConnected[0];
-    let office = await connectUserRegistryOffice(currentAccount);
+    let office = await getUserRegistryOffice(currentAccount);
     return {      
       isConnected: true,
-      publicAddress: currentAccount.publicAddress,
+      publicAddress: currentAccount,
       data: {
         district: office.district,
         publicAddress: office.publicAddress
@@ -114,3 +123,21 @@ export const checkUserConnected = async () => {
 const checkWalletInstalled = () => {
     if (!ethereum) { throw new CustomError('Please install metamask', 'info'); };
 }
+
+// export const accountsChange = () => {
+//   ethereum.on('accountsChanged', (accounts) => {
+//     return accounts[0];
+//   });
+// }
+
+// export const accountsConnectedChange = () => {
+//   ethereum.on('connect', (accounts) => {
+//     return accounts[0];
+//   });
+// }
+
+// export const accountsDisconnectedChange = () => {
+//   ethereum.on('disconnect', (accounts) => {
+//     return accounts[0];
+//   });
+// }

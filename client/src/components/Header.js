@@ -13,17 +13,23 @@ import '../styles/header.scss';
 import Logo from '../assets/logos/logo-black.png';
 import { connectWallet, getUsersContract } from '../context/utils/ContractsRequests';
 import { GlobalContext } from '../context/GlobalContext';
+import { UserType } from '../context/utils/UserType';
 
 
 const pages = ['Transactions', 'Land registered', 'Citizens', 'Assets'];
 const settings = ['Profile', 'Account', 'Logout'];
+
+const homePageRedirection = {
+  mainHome: '/',
+  registryOffice: '/registry-office',
+  citizen: '/citizen'
+}
 
 // destructuring window.ethereum
 
 
 
 function Header() {
-  
   const { state, dispatch } = React.useContext(GlobalContext);
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
@@ -43,6 +49,25 @@ function Header() {
     setAnchorElUser(null);
   };
 
+  const homePageLink = (state) => {
+    if (!state.userData.isConnected) {
+      return homePageRedirection.mainHome;
+    } else {
+      switch (state.userData.userType) {
+        case UserType.RegistryOffice:
+            return homePageRedirection.registryOffice;
+        case UserType.Citizen:
+          return homePageRedirection.citizen;
+        default:
+          return homePageRedirection.mainHome;
+    }
+    }
+  }
+
+  React.useEffect(() => {
+    console.log(state.userData)
+  }, []);
+
   const logoDisplay = (isLargeScreen) => {
     return <>
       <Box sx={{ display: isLargeScreen ? { xs: 'none', md: 'flex' } : { xs: 'flex', md: 'none' } }}>
@@ -52,7 +77,7 @@ function Header() {
         variant={isLargeScreen ? 'h6' : 'h5'}
         noWrap
         component="a"
-        href="/"
+        href={homePageLink(state)}
         sx={{
           mr: 2,
           fontFamily: 'Poppins',
@@ -66,14 +91,6 @@ function Header() {
       >
         Mada Land
       </Typography> </>
-  }
-
-  const connectToWallet = async () => {
-    const accountConnected = await connectWallet();
-    const contract = await getUsersContract(false);
-    const office = await contract.getRegistryOffice(accountConnected);
-    
-    dispatch({type: 'SET_USER_DATA', payload: {publicAddress: accountConnected, data: office}});
   }
 
   return (
@@ -131,14 +148,14 @@ function Header() {
             ))}
           </Box>
 
-          <Box sx={{ flexGrow: 0 }}>
-            
-          <Button color="buttonMain" variant="contained"
+          <Box className="public-address text-clip text-clip-size" sx={{ flexGrow: 0 }}>
+            {state.userData.publicAddress} 
+          {/* <Button color="buttonMain" variant="contained"
             onClick={connectToWallet}
             sx={{ my: 2, display: 'block' }}
           >
             Connect wallet
-          </Button>
+          </Button> */}
             
             {/* <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>

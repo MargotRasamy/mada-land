@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Navigate, useNavigate } from "react-router-dom";
 import './app.scss';
 import LandingPage from "./components/registry-office-app/RegistryOfficeApp";
 import ErrorPage from "./components/ErrorPage";
@@ -6,10 +6,10 @@ import Header from "./components/Header";
 import Footer from "./components/footer/Footer";
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import UserChoice from "./components/user-choice/UserChoice";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { GlobalContext } from "./context/GlobalContext";
 import { Alert, AlertTitle, Snackbar, Stack } from "@mui/material";
-import { checkUserConnected } from "./context/utils/ContractsRequests";
+import { accountsChange, checkUserConnected, getUserRegistryOffice } from "./context/utils/ContractsRequests";
 import { UserType } from "./context/utils/UserType";
 
 const theme = createTheme({
@@ -37,20 +37,14 @@ function App() {
   const handleCloseNotification = (index) => {
     dispatch({type: 'CLOSE_NOTIFICATION', payload: index});
   };
-  
-  useEffect(() => {
-    // CHECK if user is connected
-    (async function () {
-      const userConnected = await checkUserConnected();
-      dispatch({type: 'SET_USER_DATA', payload: {isConnected: userConnected.isConnected, userType: UserType.RegistryOffice, publicAddress: userConnected.publicAddress, data: userConnected.data}});
-    })();
-  }, []);
 
   return (
     <ThemeProvider theme={theme}>
       <Router>
         <div className="app">
+          { state.userData.isConnected && 
           <Header />
+          }
           <Routes>
               <Route path="/" element={<UserChoice />} />
               {/* Only show these routes if user is connected */}
@@ -75,6 +69,7 @@ function App() {
           <Footer />
         </div>
       </Router>
+
     </ThemeProvider>
   );
 }

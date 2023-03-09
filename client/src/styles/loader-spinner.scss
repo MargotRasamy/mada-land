@@ -5,9 +5,9 @@
     transform: translate(-50%, -50%);
     width: 10rem;
     height: 10rem;
-    border: 5px solid rgba(white, 0.3);
+    border: 5px solid var(--colorSecondary);
     border-radius: 50%;
-    border-right-color: white;
+    border-right-color: var(--colorSecondary100);
     animation: 2s spin infinite ease-in-out;
     padding:0;
     margin: auto;

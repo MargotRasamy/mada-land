@@ -2,5 +2,5 @@ import usersAbi from 'contracts/Users.sol/Users.json';
 // Smart contract abi
 export const usersContractABI = usersAbi.abi;
 // Smart contract address after deployment
-export const usersContractAddress = '0x63B3A017c39e8d08677417169a3C20a37A0E6eD4';
+export const usersContractAddress = '0x44D6FAff7aA792601CA2B9De9F148492feC8777A';
 

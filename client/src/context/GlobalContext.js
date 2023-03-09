@@ -8,7 +8,7 @@ import { UserType } from "./utils/UserType";
 // initial state
 const initialState = {
     userData : {
-        userType: UserType.RegistryOffice,
+        userType: '0',
         isConnected: checkUserConnected().isConnected,
         data: checkUserConnected().data,
         publicAddress: checkUserConnected().publicAddress
