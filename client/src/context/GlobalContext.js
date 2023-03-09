@@ -8,10 +8,10 @@ import { UserType } from "./utils/UserType";
 // initial state
 const initialState = {
     userData : {
-        userType: '0',
-        isConnected: checkUserConnected().isConnected,
-        data: checkUserConnected().data,
-        publicAddress: checkUserConnected().publicAddress
+        userType: 0,
+        isConnected: false,
+        data: {},
+        publicAddress: ''
     },
     registryOffices: [],
     notifications: {

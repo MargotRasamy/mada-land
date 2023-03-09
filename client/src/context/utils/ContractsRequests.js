@@ -1,6 +1,7 @@
 import { ethers } from 'ethers';
 import { usersContractABI, usersContractAddress } from '../ContractsData';
 import { CustomError } from './CustomError';
+import { UserType } from './UserType';
 const { ethereum } = window;
 
 // Get a smart-contract info READONLY
@@ -98,18 +99,17 @@ export const getUser = async (accountConnected) => {
   }
 }
 
+const checkWalletInstalled = () => {
+    if (!ethereum) { throw new CustomError('Please install metamask', 'info'); };
+}
+
 export const checkUserConnected = async () => {
   const accountsConnected = await checkWalletConnected();
-  if (accountsConnected.length === 0) {
-    return {
-      isConnected: false,
-      publicAddress: '',
-      data: {}
-    }
-  } else {
+  if (accountsConnected.length > 0) {
     let currentAccount = accountsConnected[0];
     let office = await getUserRegistryOffice(currentAccount);
-    return {      
+    return {     
+      userType: 2, 
       isConnected: true,
       publicAddress: currentAccount,
       data: {
@@ -119,25 +119,3 @@ export const checkUserConnected = async () => {
     }
   }
 }
-
-const checkWalletInstalled = () => {
-    if (!ethereum) { throw new CustomError('Please install metamask', 'info'); };
-}
-
-// export const accountsChange = () => {
-//   ethereum.on('accountsChanged', (accounts) => {
-//     return accounts[0];
-//   });
-// }
-
-// export const accountsConnectedChange = () => {
-//   ethereum.on('connect', (accounts) => {
-//     return accounts[0];
-//   });
-// }
-
-// export const accountsDisconnectedChange = () => {
-//   ethereum.on('disconnect', (accounts) => {
-//     return accounts[0];
-//   });
-// }

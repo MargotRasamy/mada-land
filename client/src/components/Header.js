@@ -22,7 +22,8 @@ const settings = ['Profile', 'Account', 'Logout'];
 const homePageRedirection = {
   mainHome: '/',
   registryOffice: '/registry-office',
-  citizen: '/citizen'
+  citizen: '/citizen',
+  admin: '/admin'
 }
 
 // destructuring window.ethereum
@@ -49,7 +50,7 @@ function Header() {
     setAnchorElUser(null);
   };
 
-  const homePageLink = (state) => {
+  const homePageLink = () => {
     if (!state.userData.isConnected) {
       return homePageRedirection.mainHome;
     } else {
@@ -65,7 +66,7 @@ function Header() {
   }
 
   React.useEffect(() => {
-    console.log(state.userData)
+    console.log('hey ',state.userData)
   }, []);
 
   const logoDisplay = (isLargeScreen) => {
@@ -77,7 +78,7 @@ function Header() {
         variant={isLargeScreen ? 'h6' : 'h5'}
         noWrap
         component="a"
-        href={homePageLink(state)}
+        href={homePageLink()}
         sx={{
           mr: 2,
           fontFamily: 'Poppins',

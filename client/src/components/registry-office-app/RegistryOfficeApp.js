@@ -11,13 +11,6 @@ const RegistryOfficeApp = () => {
   const { state, dispatch } = useContext(GlobalContext);
   const [isLoading, setIsLoading] = useState(true);
 
-  //Exemple use of context
-  const changeName = async () => {
-    const user = await getUser(state.userData.publicAddress);
-    console.log(user);
-  }
-
-  
 
   useEffect(() => {
     if (state.userData.isConnected) {
@@ -35,12 +28,12 @@ const RegistryOfficeApp = () => {
       :
       <div className="app-content registry-office-app">
         <h1 className='title'>Land registration administration</h1>
-        <h3>City hall : {state.userData.data.district}</h3>
-        <RegistrationRecap />
+        {/* <h3>City hall : {state.userData.data.district}</h3> */}
+        {/* <RegistrationRecap /> */}
         
         <div className="section">
-          <Button color="buttonMain" onClick={changeName} variant="contained">Create a new transaction</Button>
-          <Button color="buttonMain" onClick={changeName} variant="contained">Add a citizen</Button>
+          <Button color="buttonMain" onClick={()=> {}} variant="contained">Create a new transaction</Button>
+          <Button color="buttonMain" onClick={()=> {}} variant="contained">Add a citizen</Button>
           <h4>See latest transactions</h4>
         </div>
       </div>

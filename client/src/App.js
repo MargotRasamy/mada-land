@@ -1,16 +1,18 @@
 import { BrowserRouter as Router, Routes, Route, Navigate, useNavigate } from "react-router-dom";
 import './app.scss';
-import LandingPage from "./components/registry-office-app/RegistryOfficeApp";
+import RegistryOfficeApp from "./components/registry-office-app/RegistryOfficeApp";
 import ErrorPage from "./components/ErrorPage";
 import Header from "./components/Header";
 import Footer from "./components/footer/Footer";
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import UserChoice from "./components/user-choice/UserChoice";
+import LandingPage from "./components/landing-page/LandingPage";
 import { useContext, useEffect, useState } from "react";
 import { GlobalContext } from "./context/GlobalContext";
 import { Alert, AlertTitle, Snackbar, Stack } from "@mui/material";
-import { accountsChange, checkUserConnected, getUserRegistryOffice } from "./context/utils/ContractsRequests";
+import { accountsChange, getUserRegistryOffice } from "./context/utils/ContractsRequests";
 import { UserType } from "./context/utils/UserType";
+import AdminApp from "./components/admin-app/AdminApp";
+import CitizenApp from "./components/citizen-app/CitizenApp";
 
 const theme = createTheme({
   palette: {
@@ -38,22 +40,39 @@ function App() {
     dispatch({type: 'CLOSE_NOTIFICATION', payload: index});
   };
 
+  useEffect(() => {
+  }, []);
+
   return (
     <ThemeProvider theme={theme}>
       <Router>
         <div className="app">
           { state.userData.isConnected && 
-          <Header />
+            <Header />
           }
           <Routes>
-              <Route path="/" element={<UserChoice />} />
+              { (!state.userData.isConnected) &&
+                <Route path="/" element={<LandingPage />} />
+              }
               {/* Only show these routes if user is connected */}
-              { state.userData.isConnected && 
-                <Route path="/registry-office" element={<LandingPage />} />
+              { (state.userData.isConnected && state.userData.userType === UserType.RegistryOffice) &&
+                <Route path="/registry-office" element={<RegistryOfficeApp />} />
+              }
+              { (state.userData.isConnected && state.userData.userType === UserType.Citizen) &&
+                <Route path="/citizen" element={<CitizenApp />} />
+              }
+              { (state.userData.isConnected && state.userData.userType === UserType.Admin) &&
+                <Route path="/admin" element={<AdminApp />} />
               }
               <Route path='/404' element={<ErrorPage />} />
-              <Route path="*" element={<Navigate to="/" replace />}/> 
+              
+              { (!state.userData.isConnected) &&
+                <Route path="*" element={<Navigate to="/" replace />}/> 
+              }
+
+
           </Routes>
+
           { state.notifications?.notificationsData?.length > 0 && 
             <Stack spacing={2}>
               {state.notifications.notificationsData.map((notificationData, index) => (
