@@ -14,28 +14,6 @@ const LandingPage = () => {
     const { state, dispatch } = useContext(GlobalContext);
     const [isLoading, setIsLoading] = useState(true);
 
-    // const connectUserRegistryOffice = async () => {
-    //   try {
-    //       const accountConnected = await connectWallet();
-    //       const contract = await getUsersContract(false);
-    //       const office = await contract.getRegistryOffice(accountConnected);
-    //       console.log(office)
-    //       dispatch({type: 'SET_USER_DATA', payload: {isConnected: true, userType: UserType.RegistryOffice, publicAddress: accountConnected, data: office}});
-    //       dispatch({type: 'ADD_NOTIFICATION', payload: {
-    //           message: 'Successfully connected to wallet',
-    //           severity: 'success',
-    //           title: 'Wallet connection success',
-    //       }});
-    //       navigateTo('/registry-office');
-    //     } catch (e) {
-    //         dispatch({type: 'ADD_NOTIFICATION', payload: {
-    //             message: e.message,
-    //             severity: e.type,
-    //             title: 'Wallet connection pending',
-    //         }});
-    //     }
-    // }
-
     // General method
     const connectUserWallet = async () => {
         try {
@@ -44,25 +22,25 @@ const LandingPage = () => {
             const user = await contract.getUser(accountPublicAddress);
             let data;
             let userCategory;
-            let redirectLink = '/';
+            let redirectLink;
             if (user.exists) {
               console.log(user);
               console.log(user.exists);
               switch (user.userType) {
                 case UserType.RegistryOffice:
+                  data = await contract.getRegistryOffice(accountPublicAddress);
                   userCategory = user.userType;
                   redirectLink = '/registry-office';
-                  data = await contract.getRegistryOffice(accountPublicAddress);
                   break;
                 case UserType.Citizen:
+                  data = await contract.getCitizen(accountPublicAddress);
                   userCategory = user.userType;
                   redirectLink = '/citizen';
-                  data = await contract.getCitizen(accountPublicAddress);
                   break;
                 case UserType.Admin:
+                  data = await contract.getAdmin(accountPublicAddress);
                   userCategory = user.userType;
                   redirectLink = '/admin';
-                  data = await contract.getAdmin(accountPublicAddress);
                   break;
                 default:
                   break;
@@ -71,12 +49,13 @@ const LandingPage = () => {
 
             dispatch({type: 'SET_USER_DATA', payload: {isConnected: true, userType: userCategory, publicAddress: accountPublicAddress, data: data}});
             
+            console.log(redirectLink);
+            navigateTo(redirectLink);
             dispatch({type: 'ADD_NOTIFICATION', payload: {
                 message: 'Successfully connected to wallet',
                 severity: 'success',
                 title: 'Wallet connection success',
             }});
-            navigateTo(redirectLink);
         } catch (e) {
             dispatch({type: 'ADD_NOTIFICATION', payload: {
                 message: e.message,
@@ -100,69 +79,10 @@ const LandingPage = () => {
     //     }
     // }
 
-
-    // useEffect(() => {
-    //     if (state.userData.isConnected) {
-    //         dispatch({type: 'ADD_NOTIFICATION', payload: {
-    //             message: 'Successfully connected to wallet',
-    //             severity: 'success',
-    //             title: 'Wallet connection success',
-    //         }});
-            
-    //         switch (state.userData.userType) {
-    //             case UserType.RegistryOffice:
-    //                 navigateTo('/registry-office');
-    //                 break;
-    //             case UserType.Citizen:
-    //                 navigateTo('/error404');
-    //                 break;
-    //             default:
-    //                 break;
-    //         }
-    //     }
-    // }, [state.userData.isConnected, state.userData.userType]);
-
     useEffect(() => {
         // CHECK if user is connected
+        
         (async function () {
-          const accountsConnected = await checkWalletConnected();
-          if (accountsConnected.length > 0) {
-            let accountPublicAddress = accountsConnected[0];
-            const contract = await getUsersContract();
-            const user = await contract.getUser(accountPublicAddress);
-            let data;
-            let userCategory;
-            let redirectLink= ('/');
-            
-            if (user.exists) {
-              console.log(user);
-              console.log(user.exists);
-              switch (user.userType) {
-                case UserType.RegistryOffice:
-                  userCategory = user.userType;
-                  redirectLink = '/registry-office';
-                  data = await contract.getRegistryOffice(accountPublicAddress);
-                  break;
-                case UserType.Citizen:
-                  userCategory = user.userType;
-                  redirectLink = '/citizen';
-                  data = await contract.getCitizen(accountPublicAddress);
-                  break;
-                case UserType.Admin:
-                  userCategory = user.userType;
-                  redirectLink = '/admin';
-                  data = await contract.getAdmin(accountPublicAddress);
-                  break;
-                default:
-                  break;
-              }
-              dispatch({type: 'SET_USER_DATA', payload: {isConnected: user.exists, userType: userCategory, publicAddress: accountPublicAddress, data: data}});
-              setIsLoading(false);
-              navigateTo(redirectLink);
-          } 
-        } else {
-            setIsLoading(false);
-        }
           ethereum.on('connect', async (accounts) => {
             setIsLoading(true);
             console.log('connect');
@@ -186,18 +106,44 @@ const LandingPage = () => {
             setIsLoading(true);
     
             if (accounts.length > 0) {
-              let currentAccount = accounts[0];
-              let office = await getUserRegistryOffice(currentAccount);
-              let userConnected = {      
-                isConnected: true,
-                publicAddress: currentAccount,
-                data: {
-                  district: office.district,
-                  publicAddress: office.publicAddress
+              let accountPublicAddress = accounts[0];
+              const contract = await getUsersContract();
+              const user = await contract.getUser(accountPublicAddress);
+              let data;
+              let userCategory;
+              let redirectLink;
+              if (user.exists) {
+                console.log(user);
+                console.log(user.exists);
+                switch (user.userType) {
+                  case UserType.RegistryOffice:
+                    data = await contract.getRegistryOffice(accountPublicAddress);
+                    userCategory = user.userType;
+                    redirectLink = '/registry-office';
+                    break;
+                  case UserType.Citizen:
+                    data = await contract.getCitizen(accountPublicAddress);
+                    userCategory = user.userType;
+                    redirectLink = '/citizen';
+                    break;
+                  case UserType.Admin:
+                    data = await contract.getAdmin(accountPublicAddress);
+                    userCategory = user.userType;
+                    redirectLink = '/admin';
+                    break;
+                  default:
+                    break;
                 }
               }
-              dispatch({type: 'SET_USER_DATA', payload: {isConnected: userConnected.isConnected, userType: UserType.RegistryOffice, publicAddress: userConnected.publicAddress, data: userConnected.data}});
+
+              dispatch({type: 'SET_USER_DATA', payload: {isConnected: true, userType: userCategory, publicAddress: accountPublicAddress, data: data}});
               setIsLoading(false);
+              navigateTo(redirectLink);
+              dispatch({type: 'ADD_NOTIFICATION', payload: {
+                  message: 'Successfully connected to wallet',
+                  severity: 'success',
+                  title: 'Wallet connection success',
+              }});
             } else {
               console.log('disconnected');
               dispatch({type: 'SET_USER_DATA', payload: {isConnected: false, userType: 0, publicAddress: '', data: {}}});
@@ -207,6 +153,8 @@ const LandingPage = () => {
           });
     
         })();
+
+        setIsLoading(false);
       }, []);
 
     return (

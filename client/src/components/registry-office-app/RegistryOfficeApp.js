@@ -13,9 +13,7 @@ const RegistryOfficeApp = () => {
 
 
   useEffect(() => {
-    if (state.userData.isConnected) {
-      setIsLoading(false);
-    }
+    setIsLoading(false);
   }, []);
 
   return (

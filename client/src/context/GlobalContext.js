@@ -18,6 +18,12 @@ const initialState = {
       autoHideDuration : 4000,
       notificationsData : [
       ]
+    },
+    mainPages : {
+      mainHome: '/',
+      registryOffice: '/registry-office',
+      citizen: '/citizen',
+      admin: '/admin'
     }
 };
 

@@ -9,10 +9,11 @@ import LandingPage from "./components/landing-page/LandingPage";
 import { useContext, useEffect, useState } from "react";
 import { GlobalContext } from "./context/GlobalContext";
 import { Alert, AlertTitle, Snackbar, Stack } from "@mui/material";
-import { accountsChange, getUserRegistryOffice } from "./context/utils/ContractsRequests";
+import { accountsChange, checkWalletConnected, getUserRegistryOffice, getUsersContract } from "./context/utils/ContractsRequests";
 import { UserType } from "./context/utils/UserType";
 import AdminApp from "./components/admin-app/AdminApp";
 import CitizenApp from "./components/citizen-app/CitizenApp";
+import LoaderSpinner from "./components/LoaderSpinner";
 
 const theme = createTheme({
   palette: {
@@ -32,7 +33,30 @@ const theme = createTheme({
   }
 });
 
+
+
 function App() {
+
+  const [isLoading, setIsLoading] = useState(true);
+
+  const apps = [
+    {
+      appId: 0,
+      appName: 'Landing Page'
+    },
+    {
+      appId: 1,
+      appName: 'Citizen App'
+    },
+    {
+      appId: 2,
+      appName: 'Registration Office App'
+    },
+    {
+      appId: 3,
+      appName: 'Admin App'
+    }
+  ]
 
   const { state, dispatch } = useContext(GlobalContext);
 
@@ -41,10 +65,54 @@ function App() {
   };
 
   useEffect(() => {
+    // CHECK if user is connected
+    (async function () {
+      const accountsConnected = await checkWalletConnected();
+      if (accountsConnected.length > 0) {
+        let accountPublicAddress = accountsConnected[0];
+        const contract = await getUsersContract();
+        const user = await contract.getUser(accountPublicAddress);
+        let data;
+        let userCategory;
+        
+        if (user.exists) {
+          console.log(user);
+          console.log(user.exists);
+          switch (user.userType) {
+            case UserType.RegistryOffice:
+              userCategory = user.userType;
+              data = await contract.getRegistryOffice(accountPublicAddress);
+              break;
+            case UserType.Citizen:
+              userCategory = user.userType;
+              data = await contract.getCitizen(accountPublicAddress);
+              break;
+            case UserType.Admin:
+              userCategory = user.userType;
+              data = await contract.getAdmin(accountPublicAddress);
+              break;
+            default:
+              break;
+          }
+          dispatch({type: 'SET_USER_DATA', payload: {isConnected: user.exists, userType: userCategory, publicAddress: accountPublicAddress, data: data}});
+          setIsLoading(false);
+        } 
+        setIsLoading(false);
+      } else {
+        setIsLoading(false);
+      }
+      }
+      )();
   }, []);
 
   return (
     <ThemeProvider theme={theme}>
+      {
+        isLoading ?  
+        <div className="app-content">
+            <LoaderSpinner />
+        </div> 
+        : 
       <Router>
         <div className="app">
           { state.userData.isConnected && 
@@ -54,22 +122,28 @@ function App() {
               { (!state.userData.isConnected) &&
                 <Route path="/" element={<LandingPage />} />
               }
-              {/* Only show these routes if user is connected */}
               { (state.userData.isConnected && state.userData.userType === UserType.RegistryOffice) &&
                 <Route path="/registry-office" element={<RegistryOfficeApp />} />
+              }
+              { (state.userData.isConnected && state.userData.userType === UserType.RegistryOffice) &&
+                <Route path="*" element={<Navigate to="/registry-office" replace />}/>
               }
               { (state.userData.isConnected && state.userData.userType === UserType.Citizen) &&
                 <Route path="/citizen" element={<CitizenApp />} />
               }
+              { (state.userData.isConnected && state.userData.userType === UserType.Citizen) &&
+                <Route path="*" element={<Navigate to="/citizen" replace />}/>
+              }
               { (state.userData.isConnected && state.userData.userType === UserType.Admin) &&
                 <Route path="/admin" element={<AdminApp />} />
               }
-              <Route path='/404' element={<ErrorPage />} />
-              
-              { (!state.userData.isConnected) &&
-                <Route path="*" element={<Navigate to="/" replace />}/> 
+              { (state.userData.isConnected && state.userData.userType === UserType.Admin) &&
+                <Route path="*" element={<Navigate to="/admin" replace />}/>
               }
-
+              <Route path='/404' element={<ErrorPage />} />
+              { (!state.userData.isConnected) &&
+                <Route path="*" element={<Navigate to="/404" replace />}/>
+              }
 
           </Routes>
 
@@ -88,6 +162,7 @@ function App() {
           <Footer />
         </div>
       </Router>
+      }
 
     </ThemeProvider>
   );

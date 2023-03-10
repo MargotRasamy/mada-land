@@ -14,23 +14,14 @@ import Logo from '../assets/logos/logo-black.png';
 import { connectWallet, getUsersContract } from '../context/utils/ContractsRequests';
 import { GlobalContext } from '../context/GlobalContext';
 import { UserType } from '../context/utils/UserType';
+import { useLocation } from 'react-router-dom';
 
 
 const pages = ['Transactions', 'Land registered', 'Citizens', 'Assets'];
 const settings = ['Profile', 'Account', 'Logout'];
 
-const homePageRedirection = {
-  mainHome: '/',
-  registryOffice: '/registry-office',
-  citizen: '/citizen',
-  admin: '/admin'
-}
-
-// destructuring window.ethereum
-
-
-
 function Header() {
+  let location = useLocation();
   const { state, dispatch } = React.useContext(GlobalContext);
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
@@ -51,22 +42,11 @@ function Header() {
   };
 
   const homePageLink = () => {
-    if (!state.userData.isConnected) {
-      return homePageRedirection.mainHome;
-    } else {
-      switch (state.userData.userType) {
-        case UserType.RegistryOffice:
-            return homePageRedirection.registryOffice;
-        case UserType.Citizen:
-          return homePageRedirection.citizen;
-        default:
-          return homePageRedirection.mainHome;
-    }
-    }
+    return location.pathname;
   }
 
   React.useEffect(() => {
-    console.log('hey ',state.userData)
+
   }, []);
 
   const logoDisplay = (isLargeScreen) => {
