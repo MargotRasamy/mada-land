@@ -11,6 +11,7 @@ import { useParams } from 'react-router-dom';
 // import cityImg from '../../assets/cities';
 import cities from '../../../../data/cities.json';
 import TableRegistryOfficers from './TableRegistryOfficers';
+import BackLink from '../../../BackLink';
 
 const City = () => {
     const { cityId } = useParams();
@@ -86,6 +87,7 @@ const City = () => {
       </div> 
       :
       <div className="app-content city">
+        <BackLink link="/admin" />
         <h1 className='title'>City of : {getCityName(cityId)}</h1>
         <div className='frame'>
             <div className='banner-container'>
