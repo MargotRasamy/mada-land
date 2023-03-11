@@ -26,6 +26,16 @@
         flex: 1;
         display: flex;
         flex-direction: column;
+        button {
+            width: fit-content;
+        }
+
+        .section {
+            margin: 1rem 0;
+            .element {
+                margin: 1rem 0;
+            }
+        }
     }
     
     .text-clip {
@@ -40,7 +50,7 @@
     }
       
     .word-break {
-    word-break: break-word;
+        word-break: break-word;
     }
       
     // button {

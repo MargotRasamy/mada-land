@@ -2,7 +2,7 @@ import '../../styles/landing-page.scss';
 import Button from '@mui/material/Button';
 import { GlobalContext } from '../../context/GlobalContext';
 import React, { useContext, useEffect, useState } from 'react';
-import { checkUserConnected, checkWalletConnected, connectWallet, getUserRegistryOffice, getUsersContract } from '../../context/utils/ContractsRequests';
+import { connectWallet, getUserRegistryOffice, getUsersContract } from '../../context/utils/ContractsRequests';
 import { useNavigate } from "react-router-dom";
 import { UserType } from '../../context/utils/UserType';
 import LoaderSpinner from '../LoaderSpinner';
@@ -20,9 +20,8 @@ const LandingPage = () => {
       let data;
       let userCategory;
       let redirectLink;
+      console.log(user);
       if (user.exists) {
-        console.log(user);
-        console.log(user.exists);
         switch (user.userType) {
           case UserType.RegistryOffice:
             data = await contract.getRegistryOffice(accountPublicAddress);
@@ -44,6 +43,7 @@ const LandingPage = () => {
         }
       }
 
+      console.log(data);
       dispatch({type: 'SET_USER_DATA', payload: {isConnected: true, userType: userCategory, publicAddress: accountPublicAddress, data: data}});
       setIsLoading(false);
       navigateTo(redirectLink);
@@ -68,23 +68,8 @@ const LandingPage = () => {
         }
     }
 
-    // const getRegistryOffices = async () => {
-    //     try {
-    //       const contract = await getUsersContract();
-    //       const res = await contract.getRegistryOffices();
-    //       dispatch({type: 'SET_REGISTRY_OFFICE', payload: res});
-    //     } catch (e) {
-    //         dispatch({type: 'ADD_NOTIFICATION', payload: {
-    //             message: e.message,
-    //             severity: e.type,
-    //             title: 'Unknown error',
-    //         }});
-    //     }
-    // }
-
     useEffect(() => {
-        // CHECK if user is connected
-        
+        // CHECK if user is connected 
         (async function () {
           // If new connection has occurred
           ethereum.on('connect', async (accounts) => {
@@ -131,16 +116,6 @@ const LandingPage = () => {
                         <Button sx={{ mr: 2 }} color="buttonMain" onClick={connectUserWallet} variant="contained">Citizen</Button>
                         <Button sx={{ mr: 2 }} color="buttonMain" onClick={connectUserWallet} variant="contained">Admin</Button>
                     </div>
-        
-                    {/* <div className="section">
-                    {state.registryOffices.length > 0 && 
-                    state.registryOffices.map((registryOffice, i) => (
-                        <div key={i}>
-                            {registryOffice.district}
-                        </div>
-                    ))
-                    }  
-                    </div> */}
                 </div>
             }    
         </>

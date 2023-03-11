@@ -102,20 +102,3 @@ export const getUser = async (accountConnected) => {
 const checkWalletInstalled = () => {
     if (!ethereum) { throw new CustomError('Please install metamask', 'info'); };
 }
-
-export const checkUserConnected = async () => {
-  const accountsConnected = await checkWalletConnected();
-  if (accountsConnected.length > 0) {
-    let currentAccount = accountsConnected[0];
-    let office = await getUserRegistryOffice(currentAccount);
-    return {     
-      userType: 2, 
-      isConnected: true,
-      publicAddress: currentAccount,
-      data: {
-        district: office.district,
-        publicAddress: office.publicAddress
-      }
-    }
-  }
-}

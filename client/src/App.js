@@ -76,8 +76,6 @@ function App() {
         let userCategory;
         
         if (user.exists) {
-          console.log(user);
-          console.log(user.exists);
           switch (user.userType) {
             case UserType.RegistryOffice:
               userCategory = user.userType;
@@ -94,6 +92,7 @@ function App() {
             default:
               break;
           }
+          console.log(data);
           dispatch({type: 'SET_USER_DATA', payload: {isConnected: user.exists, userType: userCategory, publicAddress: accountPublicAddress, data: data}});
           setIsLoading(false);
         } 

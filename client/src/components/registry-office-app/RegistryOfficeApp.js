@@ -4,7 +4,6 @@ import Button from '@mui/material/Button';
 import { GlobalContext } from '../../context/GlobalContext';
 import { useContext, useEffect, useState } from 'react';
 import LoaderSpinner from '../LoaderSpinner';
-import { getUser } from '../../context/utils/ContractsRequests';
 
 const RegistryOfficeApp = () => {
 

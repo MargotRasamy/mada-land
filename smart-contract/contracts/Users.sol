@@ -8,7 +8,15 @@ contract Users {
 
     constructor() {
         owner = msg.sender;
-        addRegistryOfficers(owner, "Ivandry");
+        addAdmin(owner);
+        address ad1 = address(0x59C8261e1af50CB768d4bD2E33bB04EA5550449D);
+        address ad2 = address(0x2746fB3525e99329F93eC69EA88E867d7851db0B);
+        address ad3 = address(0xDb08B146f6C7c76108a68911e482Dde78763eb3D);
+        address ad4 = address(0x47f4B066566DDe1040C2e91A35D5f2Da6751c6b9);
+        addRegistryOfficers(ad1, "Ivandry");
+        addRegistryOfficers(ad2, "Analakely");
+        addCitizen(ad3, 'Margot', 'Rasamy');
+        addCitizen(ad4, 'Krishna', 'Rasamy');
     }
 
     address owner;
@@ -64,6 +72,8 @@ contract Users {
     Citizen[] citizensList;
     // List of Registry Offices
     RegistryOffice[] registryOfficesList;
+    // List of admins
+    Admin[] adminsList;
 
     City[] citiesList;
 
@@ -74,6 +84,7 @@ contract Users {
 
     mapping (address => RegistryOffice) public registryOffices;
     mapping (address => Citizen) public citizens;
+    mapping (address => Admin) public admins;
 
     mapping (string => bool) public lands;
 
@@ -101,6 +112,7 @@ contract Users {
     // }
 
     function addRegistryOfficers(address _registryOfficeAddress, string memory district) public returns (address) {
+        require(allUsers[msg.sender].userType == UserType.Admin, "Registry officers can only be created by admin.");
         // check the address validity
         require(address(_registryOfficeAddress) != address(0));
         // Create new registry office
@@ -136,22 +148,22 @@ contract Users {
         return _address;
     }
 
-    function getCitizen(address _address) public view returns (Citizen memory) {
+    function getAdmin(address _address) public view returns (Admin memory) {
         require(address(_address) != address(0));
-        return citizens[_address];
+        return admins[_address];
     }
 
-    function addCitizen(address _address, string memory _firstname, string memory _lastname) public returns (address) {
+    function addAdmin(address _address) public returns (address) {
         // check the address validity
         require(address(_address) != address(0));
-        // Create new citizen
-        Citizen memory newCitizen = Citizen(_address, _firstname, _lastname);
+        // Create new admin
+        Admin memory newAdmin = Admin(_address);
         // Add to citizen list
-        citizensList.push(newCitizen);
+        adminsList.push(newAdmin);
         // Add to address mapping
-        citizens[_address] = newCitizen;
+        admins[_address] = newAdmin;
         // Add to general user's list
-        User memory newUser = User(true, UserType.Citizen);
+        User memory newUser = User(true, UserType.Admin);
         allUsers[_address] = newUser;
         return _address;
     }

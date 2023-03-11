@@ -2,13 +2,11 @@ import { useReducer, createContext } from "react";
 import { notificationsReducer } from "./reducers/NotificationsReducer";
 import { registryOfficesReducer } from "./reducers/RegistryOfficesReducer";
 import { userReducer } from "./reducers/UserReducer";
-import { checkUserConnected } from "./utils/ContractsRequests";
-import { UserType } from "./utils/UserType";
 
 // initial state
 const initialState = {
     userData : {
-        userType: 0,
+        userType: -1,
         isConnected: false,
         data: {},
         publicAddress: ''
