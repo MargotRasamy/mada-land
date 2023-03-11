@@ -1,0 +1,36 @@
+{
+    "mg": [
+        {
+            "id": "mg_iva",
+            "name": "Ambanja"
+        },
+        {
+            "id": "mg_ahy",
+            "name": "Ambatolahy"
+        },
+        {
+            "id": "mg_amy",
+            "name": "Ambatomainty"
+        },
+        {
+            "id": "mg_wam",
+            "name": "Ambatondrazaka"
+        },
+        {
+            "id": "mg_amb",
+            "name": "Ambilobe"
+        },
+        {
+            "id": "mg_ams",
+            "name": "Amboasary Sud"
+        },
+        {
+            "id": "mg_amv",
+            "name": "Ambovombe"
+        },
+        {
+            "id": "mg_tnr",
+            "name": "Antananarivo"
+        }
+    ]
+}

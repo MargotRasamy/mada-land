@@ -112,9 +112,9 @@ const LandingPage = () => {
                     <p>Which type of user are you ?</p>
 
                     <div className="section choice-menu">
-                        <Button sx={{ mr: 2 }} color="buttonMain" onClick={connectUserWallet} variant="contained">Registry office</Button>
-                        <Button sx={{ mr: 2 }} color="buttonMain" onClick={connectUserWallet} variant="contained">Citizen</Button>
-                        <Button sx={{ mr: 2 }} color="buttonMain" onClick={connectUserWallet} variant="contained">Admin</Button>
+                        <Button sx={{ mr: 2 }} color="buttonMain" onClick={() => {connectUserWallet()}} variant="contained">Registry office</Button>
+                        <Button sx={{ mr: 2 }} color="buttonMain" onClick={() => {connectUserWallet()}} variant="contained">Citizen</Button>
+                        <Button sx={{ mr: 2 }} color="buttonMain" onClick={() => {connectUserWallet()}} variant="contained">Admin</Button>
                     </div>
                 </div>
             }    

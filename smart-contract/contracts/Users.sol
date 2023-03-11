@@ -8,13 +8,23 @@ contract Users {
 
     constructor() {
         owner = msg.sender;
-        addAdmin(owner);
+        addAdmin(owner, "mg");
         address ad1 = address(0x59C8261e1af50CB768d4bD2E33bB04EA5550449D);
         address ad2 = address(0x2746fB3525e99329F93eC69EA88E867d7851db0B);
         address ad3 = address(0xDb08B146f6C7c76108a68911e482Dde78763eb3D);
         address ad4 = address(0x47f4B066566DDe1040C2e91A35D5f2Da6751c6b9);
-        addRegistryOfficers(ad1, "Ivandry");
-        addRegistryOfficers(ad2, "Analakely");
+        addCity("mg_iva");
+        addCity("mg_ahy");
+        addCity("mg_amy");
+        addCity("mg_wam");
+        addCity("mg_amb");
+        addCity("mg_ams");
+        addCity("mg_amv");
+        addCity("mg_tnr");
+        addRegistryOfficers(ad1, "mg_iva");
+        addRegistryOfficers(ad2, "mg_ahy");
+        addRegistryOfficers(ad3, "mg_amb");
+        addRegistryOfficers(ad4, "mg_tnr");
         addCitizen(ad3, 'Margot', 'Rasamy');
         addCitizen(ad4, 'Krishna', 'Rasamy');
     }
@@ -33,7 +43,7 @@ contract Users {
     // can add new registry office and new citizens
     struct Admin {
         address publicAddress;
-        // City city;
+        string countryCode;
     }
 
     // can buy or sell property and ask for declaration
@@ -46,7 +56,7 @@ contract Users {
     // can add new citizens
     struct RegistryOffice {
         address publicAddress;
-        string district;
+        string cityID;
     }
 
     struct Land {
@@ -56,13 +66,7 @@ contract Users {
     }
 
     struct City {
-        uint256 cityID;
-        string cityName;
-    }
-
-    struct District {
-        uint256 districtID;
-        string districtName;
+        string cityID;
     }
 
     // ALL LISTS
@@ -80,7 +84,6 @@ contract Users {
     //--- CHECK which type of user is the given
     mapping (address => User) allUsers;
     //-----
-    mapping (uint256 => District[]) citiesHandled;
 
     mapping (address => RegistryOffice) public registryOffices;
     mapping (address => Citizen) public citizens;
@@ -104,6 +107,19 @@ contract Users {
         return registryOfficesList;
     }
 
+    function getCities() public view returns (City[] memory) {
+        return citiesList;
+    }
+
+    function addCity(string memory cityID) public returns (string memory) {
+        require(allUsers[msg.sender].userType == UserType.Admin, "Only admin can add new cities.");
+        City memory newCity = City(cityID);
+        citiesList.push(newCity);
+
+        return cityID;
+    }
+
+
     // function assignLandOwner(address landOwnerAddress, string memory addressID) public {
     //     require(registryOffices[msg.sender].publicAddress == msg.sender);
     //     require(citizens[landOwnerAddress].publicAddress == landOwnerAddress);
@@ -111,12 +127,12 @@ contract Users {
     //     landOwned[addressID] = landOwnerAddress;
     // }
 
-    function addRegistryOfficers(address _registryOfficeAddress, string memory district) public returns (address) {
+    function addRegistryOfficers(address _registryOfficeAddress, string memory _cityID) public returns (address) {
         require(allUsers[msg.sender].userType == UserType.Admin, "Registry officers can only be created by admin.");
         // check the address validity
         require(address(_registryOfficeAddress) != address(0));
         // Create new registry office
-        RegistryOffice memory newRegistryOffice = RegistryOffice(_registryOfficeAddress, district);
+        RegistryOffice memory newRegistryOffice = RegistryOffice(_registryOfficeAddress, _cityID);
         // Add to registry office list
         registryOfficesList.push(newRegistryOffice);
         // Add to address mapping
@@ -153,11 +169,11 @@ contract Users {
         return admins[_address];
     }
 
-    function addAdmin(address _address) public returns (address) {
+    function addAdmin(address _address, string memory _countryCode) public returns (address) {
         // check the address validity
         require(address(_address) != address(0));
         // Create new admin
-        Admin memory newAdmin = Admin(_address);
+        Admin memory newAdmin = Admin(_address, _countryCode);
         // Add to citizen list
         adminsList.push(newAdmin);
         // Add to address mapping

@@ -14,6 +14,7 @@ import { UserType } from "./context/utils/UserType";
 import AdminApp from "./components/admin-app/AdminApp";
 import CitizenApp from "./components/citizen-app/CitizenApp";
 import LoaderSpinner from "./components/LoaderSpinner";
+import City from "./components/admin-app/layouts/city/City";
 
 const theme = createTheme({
   palette: {
@@ -133,8 +134,13 @@ function App() {
               { (state.userData.isConnected && state.userData.userType === UserType.Citizen) &&
                 <Route path="*" element={<Navigate to="/citizen" replace />}/>
               }
+              
               { (state.userData.isConnected && state.userData.userType === UserType.Admin) &&
                 <Route path="/admin" element={<AdminApp />} />
+              }
+
+              { (state.userData.isConnected && state.userData.userType === UserType.Admin) &&
+                <Route path="/admin/city/:cityId" element={<City />} />
               }
               { (state.userData.isConnected && state.userData.userType === UserType.Admin) &&
                 <Route path="*" element={<Navigate to="/admin" replace />}/>
