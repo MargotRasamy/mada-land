@@ -13,6 +13,10 @@
             "name": "Ambatomainty"
         },
         {
+            "id": "mg_zwa",
+            "name": "Andapa"
+        },
+        {
             "id": "mg_wam",
             "name": "Ambatondrazaka"
         },
@@ -29,8 +33,20 @@
             "name": "Ambovombe"
         },
         {
+            "id": "mg_sms",
+            "name": "Sainte-Marie"
+        },
+        {
             "id": "mg_tnr",
             "name": "Antananarivo"
+        },
+        {
+            "id": "mg_moa",
+            "name": "Moramanga"
+        },
+        {
+            "id": "mg_tle",
+            "name": "Tulear (Toliara)"
         }
     ]
 }

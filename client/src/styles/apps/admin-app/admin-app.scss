@@ -2,6 +2,13 @@
 
 .admin-app {
 
+    .table-registry-officers {
+        .actions-col {
+            display: flex;
+            justify-content: space-between;
+        }
+    }
+
     .banner-container {
         width: 100%;
         height: 220px;

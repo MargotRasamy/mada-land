@@ -1,0 +1,339 @@
+{
+    "mg": [
+        {
+            "id": "mg_iva",
+            "name": "Ambanja"
+        },
+        {
+            "id": "mg_ahy",
+            "name": "Ambatolahy"
+        },
+        {
+            "id": "mg_amy",
+            "name": "Ambatomainty"
+        },
+        {
+            "id": "mg_wam",
+            "name": "Ambatondrazaka"
+        },
+        {
+            "id": "mg_amb",
+            "name": "Ambilobe"
+        },
+        {
+            "id": "mg_ams",
+            "name": "Amboasary Sud"
+        },
+        {
+            "id": "mg_amv",
+            "name": "Ambovombe"
+        },
+        {
+            "id": "mg_amp",
+            "name": "Ampanihy"
+        },
+        {
+            "id": "mg_hva",
+            "name": "Analalava"
+        },
+        {
+            "id": "mg_zwa",
+            "name": "Andapa"
+        },
+        {
+            "id": "mg_wad",
+            "name": "Andriamena"
+        },
+        {
+            "id": "mg_adk",
+            "name": "Androka"
+        },
+        {
+            "id": "mg_jva",
+            "name": "Ankavandra"
+        },
+        {
+            "id": "mg_wak",
+            "name": "Ankazoabo"
+        },
+        {
+            "id": "mg_nko",
+            "name": "Ankokoambo"
+        },
+        {
+            "id": "mg_wor",
+            "name": "Ankorefo"
+        },
+        {
+            "id": "mg_anm",
+            "name": "Antalaha"
+        },
+        {
+            "id": "mg_tnr",
+            "name": "Antananarivo"
+        },
+        {
+            "id": "mg_waq",
+            "name": "Antsalova"
+        },
+        {
+            "id": "mg_waq",
+            "name": "Antsalova"
+        },
+        {
+            "id": "mg_atj",
+            "name": "Antsirabe"
+        },
+        {
+            "id": "mg_die",
+            "name": "Antsiranana"
+        },
+        {
+            "id": "mg_wai",
+            "name": "Antsohihy"
+        },
+        {
+            "id": "mg_brr",
+            "name": "Barren Islands"
+        },
+        {
+            "id": "mg_wbe",
+            "name": "Bealanana"
+        },
+        {
+            "id": "mg_wbd",
+            "name": "Befandriana"
+        },
+        {
+            "id": "mg_ova",
+            "name": "Bekily"
+        },
+        {
+            "id": "mg_bmd",
+            "name": "Belo"
+        },
+        {
+            "id": "mg_wbo",
+            "name": "Beroroha"
+        },
+        {
+            "id": "mg_bsv",
+            "name": "Besakoa"
+        },
+        {
+            "id": "mg_bpy",
+            "name": "Besalampy"
+        },
+        {
+            "id": "mg_bku",
+            "name": "Betioky"
+        },
+        {
+            "id": "mg_bik",
+            "name": "Brickaville"
+        },
+        {
+            "id": "mg_diz",
+            "name": "Diego-Suarez (Antsiranana)"
+        },
+        {
+            "id": "mg_doa",
+            "name": "Doany"
+        },
+        {
+            "id": "mg_ehl",
+            "name": "Ehoala"
+        },
+        {
+            "id": "mg_rva",
+            "name": "Farafangana"
+        },
+        {
+            "id": "mg_wfi",
+            "name": "Fianarantsoa"
+        },
+        {
+            "id": "mg_ftu",
+            "name": "Fort Dauphin (Toalagnaro)"
+        },
+        {
+            "id": "mg_hlv",
+            "name": "Hell-Ville"
+        },
+        {
+            "id": "mg_iho",
+            "name": "Ihosy"
+        },
+        {
+            "id": "mg_ilk",
+            "name": "Ilaka"
+        },
+        {
+            "id": "mg_iva",
+            "name": "Ivato"
+        },
+        {
+            "id": "mg_wmv",
+            "name": "Madirovalo"
+        },
+        {
+            "id": "mg_vvb",
+            "name": "Mahanoro"
+        },
+        {
+            "id": "mg_mxt",
+            "name": "Maintirano"
+        },
+        {
+            "id": "mg_mjn",
+            "name": "Majunga (Mahajanga)"
+        },
+        {
+            "id": "mg_wml",
+            "name": "Malaimbandy"
+        },
+        {
+            "id": "mg_wmp",
+            "name": "Mampikony"
+        },
+        {
+            "id": "mg_wvk",
+            "name": "Manakara"
+        },
+        {
+            "id": "mg_wmr",
+            "name": "Mananara"
+        },
+        {
+            "id": "mg_mnj",
+            "name": "Mananjary"
+        },
+        {
+            "id": "mg_wmd",
+            "name": "Mandabe"
+        },
+        {
+            "id": "mg_wma",
+            "name": "Mandritsara"
+        },
+        {
+            "id": "mg_mja",
+            "name": "Manja"
+        },
+        {
+            "id": "mg_mob",
+            "name": "Manombo"
+        },
+        {
+            "id": "mg_wmn",
+            "name": "Maroantsetra"
+        },
+        {
+            "id": "mg_zva",
+            "name": "Miandrivazo"
+        },
+        {
+            "id": "mg_tva",
+            "name": "Morafenobe"
+        },
+        {
+            "id": "mg_moa",
+            "name": "Moramanga"
+        },
+        {
+            "id": "mg_mxm",
+            "name": "Morombe"
+        },
+        {
+            "id": "mg_moq",
+            "name": "Morondava"
+        },
+        {
+            "id": "mg_nos",
+            "name": "Nosy-Be"
+        },
+        {
+            "id": "mg_nov",
+            "name": "Nosy-Varika"
+        },
+        {
+            "id": "mg_wpb",
+            "name": "Port Berge Vaovao"
+        },
+        {
+            "id": "mg_psl",
+            "name": "Port Saint Louis"
+        },
+        {
+            "id": "mg_sms",
+            "name": "Sainte-Marie"
+        },
+        {
+            "id": "mg_svb",
+            "name": "Sambava"
+        },
+        {
+            "id": "mg_dwb",
+            "name": "Soalala"
+        },
+        {
+            "id": "mg_tmm",
+            "name": "Tamatave (Toamasina)"
+        },
+        {
+            "id": "mg_wta",
+            "name": "Tambohorano"
+        },
+        {
+            "id": "mg_tdv",
+            "name": "Tanandava"
+        },
+        {
+            "id": "mg_tan",
+            "name": "Tanjombato"
+        },
+        {
+            "id": "mg_tln",
+            "name": "Taolagnaro"
+        },
+        {
+            "id": "mg_tts",
+            "name": "Tsaratanana"
+        },
+        {
+            "id": "mg_tsm",
+            "name": "Tsiombe"
+        },
+        {
+            "id": "mg_wts",
+            "name": "Tsiroanomandidy"
+        },
+        {
+            "id": "mg_tle",
+            "name": "Tulear (Toliara)"
+        },
+        {
+            "id": "mg_vnd",
+            "name": "Vangaindrano"
+        },
+        {
+            "id": "mg_vat",
+            "name": "Vatomandry"
+        },
+        {
+            "id": "mg_veh",
+            "name": "Vohipeno"
+        },
+        {
+            "id": "mg_voh",
+            "name": "Vohemar"
+        },
+    ]
+}	 	 	 	 	 	 	 	 	 	 
+ 
+ 	MG  WTS 	Tsiroanomandidy 	Tsiroanomandidy 	 	---4---- 	AI 	9601 	 	 	 
+ 	MG  TLE 	Tulear (Toliara) 	Tulear (Toliara) 	 	1--4---- 	AI 	9601 	 	 	 
+ 	MG  VND 	Vangaindrano 	Vangaindrano 	 	---4---- 	AI 	0001 	 	 	 
+ 	MG  VAT 	Vatomandry 	Vatomandry 	 	1--4---- 	AI 	9601 	 	 	 
+ 	MG  VEH 	Vehiperro 	Vehiperro 	 	1------- 	QQ 	8103 	 	 	 
+ 	MG  VOH 	Vohemar 	Vohemar 

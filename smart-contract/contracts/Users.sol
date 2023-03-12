@@ -57,6 +57,8 @@ contract Users {
     struct RegistryOffice {
         address publicAddress;
         string cityID;
+        string firstname;
+        string lastname;
     }
 
     struct Land {
