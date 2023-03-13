@@ -1,32 +1,56 @@
 {
     "mg": [
         {
-            "id": "mg_iva",
+            "id": "203",
             "name": "Ambanja"
         },
         {
-            "id": "mg_ahy",
-            "name": "Ambatolahy"
+            "id": "617",
+            "name": "Miandrivazo"
         },
         {
-            "id": "mg_amy",
+            "id": "404",
             "name": "Ambatomainty"
         },
         {
-            "id": "mg_wam",
+            "id": "205",
+            "name": "Andapa"
+        },
+        {
+            "id": "503",
             "name": "Ambatondrazaka"
         },
         {
-            "id": "mg_amb",
+            "id": "204",
             "name": "Ambilobe"
         },
         {
-            "id": "mg_ams",
+            "id": "603",
             "name": "Amboasary Sud"
         },
         {
-            "id": "mg_amv",
+            "id": "604",
             "name": "Ambovombe"
+        },
+        {
+            "id": "515",
+            "name": "Sainte-Marie"
+        },
+        {
+            "id": "101",
+            "name": "Antananarivo"
+        },
+        {
+            "id": "514",
+            "name": "Moramanga"
+        },
+        {
+            "id": "602",
+            "name": "Tulear (Toliara)"
+        },
+        {
+            "id": "207",
+            "name": "Nosy Be"
         },
         {
             "id": "mg_amp",
@@ -35,10 +59,6 @@
         {
             "id": "mg_hva",
             "name": "Analalava"
-        },
-        {
-            "id": "mg_zwa",
-            "name": "Andapa"
         },
         {
             "id": "mg_wad",
@@ -67,10 +87,6 @@
         {
             "id": "mg_anm",
             "name": "Antalaha"
-        },
-        {
-            "id": "mg_tnr",
-            "name": "Antananarivo"
         },
         {
             "id": "mg_waq",
@@ -157,10 +173,6 @@
             "name": "Fort Dauphin (Toalagnaro)"
         },
         {
-            "id": "mg_hlv",
-            "name": "Hell-Ville"
-        },
-        {
             "id": "mg_iho",
             "name": "Ihosy"
         },
@@ -237,20 +249,12 @@
             "name": "Morafenobe"
         },
         {
-            "id": "mg_moa",
-            "name": "Moramanga"
-        },
-        {
             "id": "mg_mxm",
             "name": "Morombe"
         },
         {
             "id": "mg_moq",
             "name": "Morondava"
-        },
-        {
-            "id": "mg_nos",
-            "name": "Nosy-Be"
         },
         {
             "id": "mg_nov",
@@ -263,10 +267,6 @@
         {
             "id": "mg_psl",
             "name": "Port Saint Louis"
-        },
-        {
-            "id": "mg_sms",
-            "name": "Sainte-Marie"
         },
         {
             "id": "mg_svb",
@@ -309,10 +309,6 @@
             "name": "Tsiroanomandidy"
         },
         {
-            "id": "mg_tle",
-            "name": "Tulear (Toliara)"
-        },
-        {
             "id": "mg_vnd",
             "name": "Vangaindrano"
         },
@@ -327,13 +323,6 @@
         {
             "id": "mg_voh",
             "name": "Vohemar"
-        },
+        }
     ]
 }	 	 	 	 	 	 	 	 	 	 
- 
- 	MG  WTS 	Tsiroanomandidy 	Tsiroanomandidy 	 	---4---- 	AI 	9601 	 	 	 
- 	MG  TLE 	Tulear (Toliara) 	Tulear (Toliara) 	 	1--4---- 	AI 	9601 	 	 	 
- 	MG  VND 	Vangaindrano 	Vangaindrano 	 	---4---- 	AI 	0001 	 	 	 
- 	MG  VAT 	Vatomandry 	Vatomandry 	 	1--4---- 	AI 	9601 	 	 	 
- 	MG  VEH 	Vehiperro 	Vehiperro 	 	1------- 	QQ 	8103 	 	 	 
- 	MG  VOH 	Vohemar 	Vohemar 

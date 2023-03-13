@@ -3,7 +3,8 @@ import Button from 'react-bootstrap/Button';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteSweepIcon from '@mui/icons-material/DeleteSweep';
 
-function TableRegistryOfficers() {
+function TableRegistryOfficers({registryOffices}) {
+
   return (
     <Table responsive="sm md" className='table-registry-officers' striped bordered hover>
       <thead>
@@ -11,37 +12,37 @@ function TableRegistryOfficers() {
           <th>Public Addresses</th>
           <th>First Name</th>
           <th>Last Name</th>
+          <th>Citizen address</th>
           <th>Actions</th>
         </tr>
       </thead>
+
+
       <tbody>
-        <tr>
-          <td>OxOfezfze4343242FEDEFEZ</td>
-          <td>Tiavina</td>
-          <td>Ratovo</td>
-          <td className='actions-col'>
-            <Button type="button" variant='success'><EditIcon /></Button>
-            <Button type="button" variant="danger"><DeleteSweepIcon /></Button>
-          </td>
-        </tr>
-        <tr>
-          <td>OxOfezfze4343242FEDEFEZ</td>
-          <td>Aina</td>
-          <td>Fenitra</td>
-          <td className='actions-col'>
-            <Button type="button" variant='success'><EditIcon /></Button>
-            <Button type="button" variant="danger"><DeleteSweepIcon /></Button>
-          </td>
-        </tr>
-        <tr>
-          <td>OxOfezfze4343242FEDEFEZ</td>
-          <td>Nirina</td>
-          <td>Ravoahangy</td>
-          <td className='actions-col'>
-            <Button type="button" variant='success'><EditIcon /></Button>
-            <Button type="button" variant="danger"><DeleteSweepIcon /></Button>
-          </td>
-        </tr>
+        {
+          registryOffices.length > 0 ?
+          registryOffices.map((registryOffice, index) => {
+            return (
+              <tr key={index}>
+                <td>{registryOffice.publicAddress}</td>
+                <td>{registryOffice.citizenship.firstname}</td>
+                <td>{registryOffice.citizenship.lastname}</td>
+                <td>{registryOffice.citizenship.publicAddress}</td>
+                <td className='actions-col'>
+                  <Button type="button" variant='success'><EditIcon /></Button>
+                  <Button type="button" variant="danger"><DeleteSweepIcon /></Button>
+                </td>
+              </tr>
+            );
+      
+          }) : <tr>
+              <td>No registry office yet for this city.</td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+            </tr>
+        }
       </tbody>
     </Table>
   );

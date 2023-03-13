@@ -6,7 +6,7 @@ import '../../styles/apps/admin-app/admin-app.scss';
 import { getUsersContract } from '../../context/utils/ContractsRequests';
 import axios from "axios";
 import Search from './Search';
-import cities from '../../data/cities.json';
+import cities from '../../data/citiesNames.json';
 import countryBanner from '../../assets/madagascar.jpeg';
 import { useNavigate } from 'react-router-dom';
 // import cityImg from '../../assets/cities';
@@ -15,6 +15,8 @@ const AdminApp = () => {
 
   const { state, dispatch } = useContext(GlobalContext);
   const [isLoading, setIsLoading] = useState(true);
+  const [citiesList, setCities] = useState([]);
+  const [country, setCountry] = useState('');
   const navigateTo = useNavigate();
 
   const getRegistryOffices = async () => {
@@ -31,22 +33,27 @@ const AdminApp = () => {
       }
   }
 
-  const getAllCountries = async () => {
-    var config = {
-      method: 'get',
-      url: 'https://api.countrystatecity.in/v1/countries',
-      headers: {
-        'X-CSCAPI-KEY': 'API_KEY'
-      }
-    };
+  const getCountryName = async () => {
+    if (state.userData.data.countryCode === 'mg')
+    setCountry('Madagascar');
+  }
 
+  const getCities = async () => {
     try {
-      let response = await axios(config);
-      console.log(JSON.stringify(response.data));
+      const contract = await getUsersContract();
+      const citiesResult = await contract.getCities();
+      if (citiesResult.length > 0) {
+        let allCities = citiesResult.map((cityCode) => {
+          return {
+            "id": cityCode,
+            "name": cities[cityCode]
+          }
+        });
+        setCities(allCities);
+      }
     } catch (e) {
-      console.log(e);
+      console.log(e)
     }
-    
   }
 
   const getCity = (_cityName) => {
@@ -56,7 +63,9 @@ const AdminApp = () => {
 
   useEffect(() => {
     if (state.userData.isConnected) {
+      getCountryName();
       getRegistryOffices();
+      getCities();
       setIsLoading(false);
     }
   }, []);
@@ -73,7 +82,7 @@ const AdminApp = () => {
         <div className='banner-container'>
           <img src={countryBanner} alt="country-banner" />
         </div>
-        <h1 className='title'>Welcome lands administrator !</h1>
+        <h1 className='title'>Welcome <strong>{country}</strong> lands administrator !</h1>
         
         <div className="section">
           <Button color="buttonMain" onClick={()=> {}} variant="contained">Add a new registration officer</Button>
@@ -89,8 +98,8 @@ const AdminApp = () => {
             }  
           </div> */}
           <div className='element cards-city'>
-            {cities["mg"].length > 0 ? 
-              cities["mg"].map((city, i) => (
+            {citiesList.length > 0 ? 
+              citiesList.map((city, i) => (
                   <div className='cards-city--item' key={i} onClick={() => {getCity(city.id)}}>
                     <div className="img-container">
                       <div className='overlay-img'></div>

@@ -9,20 +9,28 @@ import Search from '../../Search';
 import countryBanner from '../../../../assets/madagascar.jpeg';
 import { useParams } from 'react-router-dom';
 // import cityImg from '../../assets/cities';
-import cities from '../../../../data/cities.json';
+import cities from '../../../../data/citiesNames.json';
 import TableRegistryOfficers from './TableRegistryOfficers';
 import BackLink from '../../../BackLink';
 
 const City = () => {
-    const { cityId } = useParams();
+  const { cityId } = useParams();
   const { state, dispatch } = useContext(GlobalContext);
   const [isLoading, setIsLoading] = useState(true);
+  const [registryOfficesByCity, setRegistryOfficesByCity] = useState([]);
 
   const getRegistryOffices = async () => {
       try {
         const contract = await getUsersContract();
         const res = await contract.getRegistryOffices();
         dispatch({type: 'SET_REGISTRY_OFFICE', payload: res});
+        if (res.length > 0) {
+          let registryOfficeCity = res.filter((registryOffice)=> {return registryOffice.cityID === cityId});
+          console.log(res);
+          console.log(cityId);
+          console.log(registryOfficeCity);
+          setRegistryOfficesByCity(registryOfficeCity);
+        }
       } catch (e) {
           dispatch({type: 'ADD_NOTIFICATION', payload: {
               message: e.message,
@@ -32,48 +40,13 @@ const City = () => {
       }
   }
 
-  const getAllCountries = async () => {
-    var config = {
-      method: 'get',
-      url: 'https://api.countrystatecity.in/v1/countries',
-      headers: {
-        'X-CSCAPI-KEY': 'API_KEY'
-      }
-    };
-
-    try {
-      let response = await axios(config);
-      console.log(JSON.stringify(response.data));
-    } catch (e) {
-      console.log(e);
-    }
-    
-  }
-
-
-
-//   const getRegistryOffices = async () => {
-//     try {
-//       const contract = await getUsersContract();
-//       const res = await contract.getRegistryOffices();
-//       dispatch({type: 'SET_REGISTRY_OFFICE', payload: res});
-//     } catch (e) {
-//         dispatch({type: 'ADD_NOTIFICATION', payload: {
-//             message: e.message,
-//             severity: e.type,
-//             title: 'Registry office display fail',
-//         }});
-//     }
-// }
-
   const getCityName = (cityId) => {
-    return cities["mg"].filter((city) => {return city.id === cityId})[0].name;
+    return cities[cityId];
   }
-
 
   useEffect(() => {
     if (state.userData.isConnected) {
-      getRegistryOffices();
+      getRegistryOffices(); 
       setIsLoading(false);
     }
   }, []);
@@ -98,20 +71,9 @@ const City = () => {
         <div className="section">
           <Button color="buttonMain" onClick={()=> {}} variant="contained">Add a new registration officer</Button>
           <Search />
-          
-          {/* <div className='element cards-city'>
-            {state.registryOffices.length > 0 && 
-            state.registryOffices.map((registryOffice, i) => (
-                <div className='cards-city--item' key={i}>
-                    <h6 className='title'>City : {getCityName(registryOffice.cityID)}</h6>
-                    <p className='address text-clip text-clip--fit-content'>{registryOffice.publicAddress}</p>
-                </div>
-            ))
-            }  
-          </div> */}
-          <div className='element cards-city'>
-            <TableRegistryOfficers />
 
+          <div className='element cards-city'>
+            <TableRegistryOfficers registryOffices={registryOfficesByCity} />
           </div>
         </div>
       </div>

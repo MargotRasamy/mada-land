@@ -9,24 +9,30 @@ contract Users {
     constructor() {
         owner = msg.sender;
         addAdmin(owner, "mg");
-        address ad1 = address(0x59C8261e1af50CB768d4bD2E33bB04EA5550449D);
-        address ad2 = address(0x2746fB3525e99329F93eC69EA88E867d7851db0B);
-        address ad3 = address(0xDb08B146f6C7c76108a68911e482Dde78763eb3D);
-        address ad4 = address(0x47f4B066566DDe1040C2e91A35D5f2Da6751c6b9);
-        addCity("mg_iva");
-        addCity("mg_ahy");
-        addCity("mg_amy");
-        addCity("mg_wam");
-        addCity("mg_amb");
-        addCity("mg_ams");
-        addCity("mg_amv");
-        addCity("mg_tnr");
-        addRegistryOfficers(ad1, "mg_iva");
-        addRegistryOfficers(ad2, "mg_ahy");
-        addRegistryOfficers(ad3, "mg_amb");
-        addRegistryOfficers(ad4, "mg_tnr");
-        addCitizen(ad3, 'Margot', 'Rasamy');
-        addCitizen(ad4, 'Krishna', 'Rasamy');
+        addCity("101");
+        addCity("514");
+        addCity("205");
+        addCity("602");
+        addCity("203");
+        addCity("204");
+        addCity("617");
+        addCity("404");    
+        addCity("503"); 
+        addCity("603");     
+        addCity("604"); 
+        addCity("515");    
+        addCity("207");
+        address margotAddress = address(0x59C8261e1af50CB768d4bD2E33bB04EA5550449D);
+        address krishnaAddress = address(0xB55E3856A42286370d4B863D9B3800c82d6f903b);
+        address papaAddress = address(0x7d90737dA9C8674e8B05B1aa003ecD864bD4391b);
+        address mairieTana = address(0xDb08B146f6C7c76108a68911e482Dde78763eb3D);
+        address mairieMoramanga = address(0x47f4B066566DDe1040C2e91A35D5f2Da6751c6b9);
+        addCitizen(margotAddress, 'Margot', 'Rasamy');
+        addCitizen(krishnaAddress, 'Krishna', 'Rasamy');
+        addCitizen(papaAddress, 'Papa', 'Rasamy');
+        addRegistryOfficers(mairieTana, "101", margotAddress);
+        addRegistryOfficers(mairieMoramanga, "514", krishnaAddress);
+        addRegistryOfficers(mairieMoramanga, "514", papaAddress);
     }
 
     address owner;
@@ -57,18 +63,17 @@ contract Users {
     struct RegistryOffice {
         address publicAddress;
         string cityID;
-        string firstname;
-        string lastname;
+        Citizen citizenship;
     }
 
     struct Land {
         string landID;
-        uint256 cityID;
+        string cityID;
         uint256 price;
     }
 
-    struct City {
-        string cityID;
+    struct Country {
+        string isoCode;
     }
 
     // ALL LISTS
@@ -81,7 +86,7 @@ contract Users {
     // List of admins
     Admin[] adminsList;
 
-    City[] citiesList;
+    string[] citiesList;
 
     //--- CHECK which type of user is the given
     mapping (address => User) allUsers;
@@ -92,6 +97,8 @@ contract Users {
     mapping (address => Admin) public admins;
 
     mapping (string => bool) public lands;
+
+    
 
     // Identify lands with google maps unique land ID and in value, give the citizen owner's public address
     mapping (string => address) landOwned;
@@ -109,32 +116,27 @@ contract Users {
         return registryOfficesList;
     }
 
-    function getCities() public view returns (City[] memory) {
+    function getCities() public view returns (string[] memory) {
         return citiesList;
     }
 
-    function addCity(string memory cityID) public returns (string memory) {
-        require(allUsers[msg.sender].userType == UserType.Admin, "Only admin can add new cities.");
-        City memory newCity = City(cityID);
-        citiesList.push(newCity);
-
-        return cityID;
+    function addCity(string memory _cityID) public returns (string memory) {
+        require(allUsers[msg.sender].userType == UserType.Admin, "Only admin can add new cities.");  
+        citiesList.push(_cityID);
+        return _cityID;
     }
 
-
-    // function assignLandOwner(address landOwnerAddress, string memory addressID) public {
-    //     require(registryOffices[msg.sender].publicAddress == msg.sender);
-    //     require(citizens[landOwnerAddress].publicAddress == landOwnerAddress);
-
-    //     landOwned[addressID] = landOwnerAddress;
-    // }
-
-    function addRegistryOfficers(address _registryOfficeAddress, string memory _cityID) public returns (address) {
+    function addRegistryOfficers(address _registryOfficeAddress, string memory _cityID, address _citizenAddress) public returns (RegistryOffice memory) {
         require(allUsers[msg.sender].userType == UserType.Admin, "Registry officers can only be created by admin.");
         // check the address validity
-        require(address(_registryOfficeAddress) != address(0));
+        require(address(_registryOfficeAddress) != address(0), 'Must enter a registry office address');
+        // check the citizen address validity
+        require(address(_citizenAddress) != address(0), 'Must enter a valid citizen address');
+        require(allUsers[_citizenAddress].userType == UserType.Citizen, 'Must enter a valid citizen address');
+        // Get the linked citizen
+        Citizen memory citizenInCharge = getCitizen(_citizenAddress);
         // Create new registry office
-        RegistryOffice memory newRegistryOffice = RegistryOffice(_registryOfficeAddress, _cityID);
+        RegistryOffice memory newRegistryOffice = RegistryOffice(_registryOfficeAddress, _cityID, citizenInCharge);
         // Add to registry office list
         registryOfficesList.push(newRegistryOffice);
         // Add to address mapping
@@ -142,7 +144,7 @@ contract Users {
         // Add to general user's list
         User memory newUser = User(true, UserType.Admin);
         allUsers[_registryOfficeAddress] = newUser;
-        return _registryOfficeAddress;
+        return newRegistryOffice;
     }
 
 
@@ -186,7 +188,7 @@ contract Users {
         return _address;
     }
 
-    function getRegistryOffice(address _officeAddress) public view returns (RegistryOffice memory) {
+    function getRegistryOfficeByAddress(address _officeAddress) public view returns (RegistryOffice memory) {
         require(address(_officeAddress) != address(0));
         return registryOffices[_officeAddress];
     }

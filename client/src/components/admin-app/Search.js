@@ -1,9 +1,6 @@
 import '../../styles/apps/admin-app/search.scss';
 import { Button, Form, InputGroup } from 'react-bootstrap';
 import { useContext, useState } from 'react';
-import { GlobalContext } from '../../context/GlobalContext';
-import { useNavigate } from 'react-router-dom';
-import cities from '../../data/cities.json';
 
 const Search = ({setMovies}) => {
   const [searchInput, setSearchInput] = useState('');
