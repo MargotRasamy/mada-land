@@ -1,6 +1,11 @@
 @import "../../helpers/medias.scss";
 
 .city {
+    .element .table-registry-officers {
+        button {
+            margin-right: 1rem;
+        }
+    }
     .frame {
         border-radius: 3px;
         margin: 1rem 0;

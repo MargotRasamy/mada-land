@@ -86,7 +86,7 @@ const City = () => {
           <Button color="buttonMain" onClick={()=> {}} variant="contained">Add a new registration officer</Button>
           <Search handleChange={handleSearchInput} />
 
-          <div className='element cards-city'>
+          <div className='element'>
             <TableRegistryOfficers registryOffices={registryOfficesByCityFiltered} />
           </div>
         </div>
