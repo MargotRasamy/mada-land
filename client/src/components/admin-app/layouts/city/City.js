@@ -12,6 +12,7 @@ import { useParams } from 'react-router-dom';
 import cities from '../../../../data/citiesNames.json';
 import TableRegistryOfficers from './TableRegistryOfficers';
 import BackLink from '../../../BackLink';
+import CreateModal from './CreateModal';
 
 const City = () => {
   const { cityId } = useParams();
@@ -19,6 +20,7 @@ const City = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [registryOfficesByCity, setRegistryOfficesByCity] = useState([]);
   const [registryOfficesByCityFiltered, setRegistryOfficesByCityFiltered] = useState([]);
+  const [modalShow, setModalShow] = useState(false);
 
   const handleSearchInput = (e) => {
     let data = registryOfficesByCity.filter((registryOffice) => {
@@ -58,6 +60,10 @@ const City = () => {
     return cities[cityId];
   }
 
+  const openModal = () =>{ 
+    setModalShow(true);
+  }
+
   useEffect(() => {
     if (state.userData.isConnected) {
       getRegistryOffices(); 
@@ -81,9 +87,14 @@ const City = () => {
             <img src={`/cities/${cityId}.jpg`}  alt="city-banner" />
             </div>
         </div>
+
+        <CreateModal
+          show={modalShow}
+          onHide={() => setModalShow(false)}
+        />
         
         <div className="section">
-          <Button color="buttonMain" onClick={()=> {}} variant="contained">Add a new registration officer</Button>
+          <Button color="buttonMain" onClick={()=> {openModal()}} variant="contained">Add a new registration officer</Button>
           <Search handleChange={handleSearchInput} />
 
           <div className='element'>
