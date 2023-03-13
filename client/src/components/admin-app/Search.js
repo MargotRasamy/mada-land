@@ -1,29 +1,18 @@
 import '../../styles/apps/admin-app/search.scss';
-import { Button, Form, InputGroup } from 'react-bootstrap';
-import { useContext, useState } from 'react';
+import { Form, InputGroup } from 'react-bootstrap';
 
-const Search = ({setMovies}) => {
-  const [searchInput, setSearchInput] = useState('');
-
-  
-  const handleSearchInput = (e) => {
-    setSearchInput(e.target.value);
-  }
-
-  const handleSubmitResearch = (e) => {
-
-  }
+const Search = ({handleChange}) => {
 
   return (
     <div className="search-bar">
       <InputGroup className="search-bar--input-group mb-3">
-        <Form.Control className="item search-form" aria-label="Text input with dropdown button" onChange={(e) => handleSearchInput(e)}
+        <Form.Control className="item search-form" aria-label="Text input with dropdown button" onChange={(e) => handleChange(e)}
         placeholder="Search for a city..." />
-        <Button onClick={handleSubmitResearch}
+        {/* <Button onClick={handleSubmitResearch}
           variant="secondary"
           className="item"
           id="segmented-button-dropdown-2">Search
-        </Button>
+        </Button> */}
       </InputGroup>
           
 

@@ -18,6 +18,19 @@ const City = () => {
   const { state, dispatch } = useContext(GlobalContext);
   const [isLoading, setIsLoading] = useState(true);
   const [registryOfficesByCity, setRegistryOfficesByCity] = useState([]);
+  const [registryOfficesByCityFiltered, setRegistryOfficesByCityFiltered] = useState([]);
+
+  const handleSearchInput = (e) => {
+    let data = registryOfficesByCity.filter((registryOffice) => {
+      let regAddress = registryOffice.publicAddress.toLowerCase();
+      let citAddress = registryOffice.citizenship.publicAddress.toLowerCase();
+      let firstname = registryOffice.citizenship.firstname.toLowerCase();
+      let lastname = registryOffice.citizenship.lastname.toLowerCase();
+
+      return firstname.includes(e.target.value.toLowerCase()) || lastname.includes(e.target.value.toLowerCase()) || regAddress.includes(e.target.value.toLowerCase()) || citAddress.includes(e.target.value.toLowerCase()) ;
+    });
+    setRegistryOfficesByCityFiltered(data);
+  }
 
   const getRegistryOffices = async () => {
       try {
@@ -30,6 +43,7 @@ const City = () => {
           console.log(cityId);
           console.log(registryOfficeCity);
           setRegistryOfficesByCity(registryOfficeCity);
+          setRegistryOfficesByCityFiltered(registryOfficeCity);
         }
       } catch (e) {
           dispatch({type: 'ADD_NOTIFICATION', payload: {
@@ -70,10 +84,10 @@ const City = () => {
         
         <div className="section">
           <Button color="buttonMain" onClick={()=> {}} variant="contained">Add a new registration officer</Button>
-          <Search />
+          <Search handleChange={handleSearchInput} />
 
           <div className='element cards-city'>
-            <TableRegistryOfficers registryOffices={registryOfficesByCity} />
+            <TableRegistryOfficers registryOffices={registryOfficesByCityFiltered} />
           </div>
         </div>
       </div>

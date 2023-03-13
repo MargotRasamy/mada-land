@@ -16,6 +16,7 @@ const AdminApp = () => {
   const { state, dispatch } = useContext(GlobalContext);
   const [isLoading, setIsLoading] = useState(true);
   const [citiesList, setCities] = useState([]);
+  const [citiesFiltered, setCitiesFiltered] = useState([]);
   const [country, setCountry] = useState('');
   const navigateTo = useNavigate();
 
@@ -50,6 +51,7 @@ const AdminApp = () => {
           }
         });
         setCities(allCities);
+        setCitiesFiltered(allCities);
       }
     } catch (e) {
       console.log(e)
@@ -60,6 +62,13 @@ const AdminApp = () => {
     navigateTo(`/admin/city/${_cityName}`);
   }
 
+  const handleSearchInput = (e) => {
+    let data = citiesList.filter((city) => {
+      let cityName = city.name.toLowerCase();
+      return cityName.includes(e.target.value.toLowerCase());
+    });
+    setCitiesFiltered(data);
+  }
 
   useEffect(() => {
     if (state.userData.isConnected) {
@@ -85,21 +94,10 @@ const AdminApp = () => {
         <h1 className='title'>Welcome <strong>{country}</strong> lands administrator !</h1>
         
         <div className="section">
-          <Button color="buttonMain" onClick={()=> {}} variant="contained">Add a new registration officer</Button>
-          <Search />
-          {/* <div className='element cards-city'>
-            {state.registryOffices.length > 0 && 
-            state.registryOffices.map((registryOffice, i) => (
-                <div className='cards-city--item' key={i}>
-                    <h6 className='title'>City : {getCityName(registryOffice.cityID)}</h6>
-                    <p className='address text-clip text-clip--fit-content'>{registryOffice.publicAddress}</p>
-                </div>
-            ))
-            }  
-          </div> */}
+          <Search handleChange={handleSearchInput} />
           <div className='element cards-city'>
-            {citiesList.length > 0 ? 
-              citiesList.map((city, i) => (
+            {citiesFiltered.length > 0 ? 
+              citiesFiltered.map((city, i) => (
                   <div className='cards-city--item' key={i} onClick={() => {getCity(city.id)}}>
                     <div className="img-container">
                       <div className='overlay-img'></div>
@@ -112,7 +110,7 @@ const AdminApp = () => {
                       <h6 className='title'>City : {city.name}</h6>
                     </div>
                   </div>
-              )) : <p>No cities.</p>
+              )) : <p>No cities found.</p>
             }  
 
           </div>
