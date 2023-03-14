@@ -1,10 +1,8 @@
 import { GlobalContext } from '../../context/GlobalContext';
 import { useContext, useEffect, useState } from 'react';
 import LoaderSpinner from '../LoaderSpinner';
-import Button from '@mui/material/Button';
 import '../../styles/apps/admin-app/admin-app.scss';
 import { getUsersContract } from '../../context/utils/ContractsRequests';
-import axios from "axios";
 import Search from './Search';
 import cities from '../../data/citiesNames.json';
 import countryBanner from '../../assets/madagascar.jpeg';
@@ -19,20 +17,6 @@ const AdminApp = () => {
   const [citiesFiltered, setCitiesFiltered] = useState([]);
   const [country, setCountry] = useState('');
   const navigateTo = useNavigate();
-
-  const getRegistryOffices = async () => {
-      try {
-        const contract = await getUsersContract();
-        const res = await contract.getRegistryOffices();
-        dispatch({type: 'SET_REGISTRY_OFFICE', payload: res});
-      } catch (e) {
-          dispatch({type: 'ADD_NOTIFICATION', payload: {
-              message: e.message,
-              severity: e.type,
-              title: 'Registry office display fail',
-          }});
-      }
-  }
 
   const getCountryName = async () => {
     if (state.userData.data.countryCode === 'mg')
@@ -50,8 +34,8 @@ const AdminApp = () => {
             "name": cities[cityCode]
           }
         });
-        setCities(allCities);
         setCitiesFiltered(allCities);
+        setCities(allCities);
       }
     } catch (e) {
       console.log(e)
@@ -73,7 +57,6 @@ const AdminApp = () => {
   useEffect(() => {
     if (state.userData.isConnected) {
       getCountryName();
-      getRegistryOffices();
       getCities();
       setIsLoading(false);
     }
@@ -111,8 +94,7 @@ const AdminApp = () => {
                     </div>
                   </div>
               )) : <p>No cities found.</p>
-            }  
-
+            }
           </div>
         </div>
       </div>

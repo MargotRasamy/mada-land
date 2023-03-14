@@ -4,9 +4,7 @@ import LoaderSpinner from '../../../LoaderSpinner';
 import Button from '@mui/material/Button';
 import '../../../../styles/apps/admin-app/city.scss';
 import { getUsersContract } from '../../../../context/utils/ContractsRequests';
-import axios from "axios";
 import Search from '../../Search';
-import countryBanner from '../../../../assets/madagascar.jpeg';
 import { useParams } from 'react-router-dom';
 // import cityImg from '../../assets/cities';
 import cities from '../../../../data/citiesNames.json';
@@ -63,6 +61,10 @@ const City = () => {
   const openModal = () =>{ 
     setModalShow(true);
   }
+  
+  const closeModal = () =>{ 
+    setModalShow(false);
+  }
 
   useEffect(() => {
     if (state.userData.isConnected) {
@@ -84,7 +86,7 @@ const City = () => {
         <h1 className='title'>City of : {getCityName(cityId)}</h1>
         <div className='frame'>
             <div className='banner-container'>
-            <img src={`/cities/${cityId}.jpg`}  alt="city-banner" />
+              <img src={`/cities/${cityId}.jpg`}  alt="city-banner" />
             </div>
         </div>
 
