@@ -65,7 +65,7 @@ const AdminApp = () => {
   return (
     <>
     {
-      isLoading ?  
+      isLoading && (!citiesFiltered.length > 0) ?  
       <div className="app-content">
         <LoaderSpinner />
       </div> 
