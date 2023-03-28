@@ -2,11 +2,14 @@ import CreateForm from './RegistryOfficeForm';
 import '../../../../styles/apps/admin-app/create-modal.scss';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
+import { useEffect } from 'react';
 
-function CreateModal(props) {
+function CreateModal({onHide, show, cityId}) {
+
   return (
     <Modal className='create-modal'
-      {...props}
+      onHide={onHide}
+      show={show}
       size="lg"
       aria-labelledby="contained-modal-title-vcenter"
       centered
@@ -17,10 +20,10 @@ function CreateModal(props) {
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <CreateForm closeModal={props.onHide} />
+        <CreateForm cityId={cityId} closeModal={onHide} />
       </Modal.Body>
       <Modal.Footer>
-        <Button onClick={props.onHide}>Close</Button>
+        <Button onClick={onHide}>Close</Button>
       </Modal.Footer>
     </Modal>
   );

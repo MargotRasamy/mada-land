@@ -17,7 +17,23 @@ import { UserType } from '../context/utils/UserType';
 import { useLocation } from 'react-router-dom';
 
 
-const pages = ['Transactions', 'Land registered', 'Citizens', 'Assets'];
+const pages = [
+  {
+    pageName: 'Land registration demands',
+    rights: [UserType.RegistryOffice],
+    path: 'land-registration-demands'
+  },
+  {
+    pageName: 'Citizens',
+    rights: [UserType.RegistryOffice, UserType.Admin],
+    path: 'citizens'
+  },
+  {
+    pageName: 'My registration demands',
+    rights: [UserType.Citizen],
+    path: 'my-registration-demands'
+  }
+  ];
 const settings = ['Profile', 'Account', 'Logout'];
 
 function Header() {
@@ -109,24 +125,30 @@ function Header() {
                 display: { xs: 'block', md: 'none' },
               }}
             >
-              {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">{page}</Typography>
+              {pages.map((page) => {
+                if (page.rights.includes(state.userData.userType)) {
+                return <MenuItem key={page.pageName} onClick={handleCloseNavMenu}>
+                  <Typography textAlign="center">{page.pageName}</Typography>
                 </MenuItem>
-              ))}
+                }
+              }
+              )}
             </Menu>
           </Box>
           {logoDisplay(false)}
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-            {pages.map((page) => (
-              <Button
-                key={page}
-                onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: 'black', display: 'block' }}
-              >
-                {page}
-              </Button>
-            ))}
+            {pages.map((page) => {
+                if (page.rights.includes(state.userData.userType)) {
+                return <Button
+                    key={page.pageName}
+                    onClick={handleCloseNavMenu}
+                    sx={{ my: 2, color: 'black', display: 'block' }}
+                  >
+                  {page.pageName}
+                </Button>
+                }
+              }
+            )}
           </Box>
 
           <Box className="public-address text-clip text-clip-size" sx={{ flexGrow: 0 }}>

@@ -3,16 +3,15 @@ import Button from 'react-bootstrap/Button';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteSweepIcon from '@mui/icons-material/DeleteSweep';
 
-function TableRegistryOfficers({registryOffices}) {
+function TableCitizens({data}) {
 
   return (
-    <Table responsive="sm md" className='tables tables-registry-officers' striped bordered hover>
+    <Table responsive="sm md" className='tables tables-citizens' striped bordered hover>
       <thead>
         <tr>
-          <th>Public Addresses</th>
+          <th>Citizen public Address</th>
           <th>First Name</th>
           <th>Last Name</th>
-          <th>Citizen address</th>
           <th>Actions</th>
         </tr>
       </thead>
@@ -20,14 +19,13 @@ function TableRegistryOfficers({registryOffices}) {
 
       <tbody>
         {
-          registryOffices.length > 0 ?
-          registryOffices.map((registryOffice, index) => {
+          data.length > 0 ?
+          data.map((citizen, index) => {
             return (
               <tr key={index}>
-                <td>{registryOffice.publicAddress}</td>
-                <td>{registryOffice.citizenship.firstname}</td>
-                <td>{registryOffice.citizenship.lastname}</td>
-                <td>{registryOffice.citizenship.publicAddress}</td>
+                <td>{citizen.publicAddress}</td>
+                <td>{citizen.firstname}</td>
+                <td>{citizen.lastname}</td>
                 <td className='actions-col'>
                   <Button type="button" variant='success'><EditIcon /></Button>
                   <Button type="button" variant="danger"><DeleteSweepIcon /></Button>
@@ -36,8 +34,7 @@ function TableRegistryOfficers({registryOffices}) {
             );
       
           }) : <tr>
-              <td>No registry office yet for this city.</td>
-              <td></td>
+              <td>No citizen yet for this city.</td>
               <td></td>
               <td></td>
               <td></td>
@@ -48,4 +45,4 @@ function TableRegistryOfficers({registryOffices}) {
   );
 }
 
-export default TableRegistryOfficers;
+export default TableCitizens;

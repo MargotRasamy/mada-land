@@ -77,7 +77,7 @@ const AdminApp = () => {
         <h1 className='title'>Welcome <strong>{country}</strong> lands administrator !</h1>
         
         <div className="section">
-          <Search handleChange={handleSearchInput} />
+          <Search placeholder="Search for a city..." handleChange={handleSearchInput} />
           <div className='element cards-city'>
             {citiesFiltered.length > 0 ? 
               citiesFiltered.map((city, i) => (

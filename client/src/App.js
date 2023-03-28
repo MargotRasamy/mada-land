@@ -9,7 +9,7 @@ import LandingPage from "./components/landing-page/LandingPage";
 import { useContext, useEffect, useState } from "react";
 import { GlobalContext } from "./context/GlobalContext";
 import { Alert, AlertTitle, Snackbar, Stack } from "@mui/material";
-import { accountsChange, checkWalletConnected, getUserRegistryOffice, getUsersContract } from "./context/utils/ContractsRequests";
+import { accountsChange, checkWalletConnected, getUsersContract } from "./context/utils/ContractsRequests";
 import { UserType } from "./context/utils/UserType";
 import AdminApp from "./components/admin-app/AdminApp";
 import CitizenApp from "./components/citizen-app/CitizenApp";
@@ -68,37 +68,43 @@ function App() {
   useEffect(() => {
     // CHECK if user is connected
     (async function () {
-      const accountsConnected = await checkWalletConnected();
-      if (accountsConnected.length > 0) {
-        let accountPublicAddress = accountsConnected[0];
-        const contract = await getUsersContract();
-        const user = await contract.getUser(accountPublicAddress);
-        let data;
-        let userCategory;
-        
-        if (user.exists) {
-          switch (user.userType) {
-            case UserType.RegistryOffice:
-              userCategory = user.userType;
-              data = await contract.getRegistryOffice(accountPublicAddress);
-              break;
-            case UserType.Citizen:
-              userCategory = user.userType;
-              data = await contract.getCitizen(accountPublicAddress);
-              break;
-            case UserType.Admin:
-              userCategory = user.userType;
-              data = await contract.getAdmin(accountPublicAddress);
-              break;
-            default:
-              break;
-          }
-          console.log(data);
-          dispatch({type: 'SET_USER_DATA', payload: {isConnected: user.exists, userType: userCategory, publicAddress: accountPublicAddress, data: data}});
+      try {
+        const accountsConnected = await checkWalletConnected();
+        if (accountsConnected.length > 0) {
+          let accountPublicAddress = accountsConnected[0];
+          const contract = await getUsersContract();
+          const user = await contract.getUser(accountPublicAddress);
+          let data;
+          let userCategory;
+          
+          if (user.exists) {
+            switch (user.userType) {
+              case UserType.RegistryOffice:
+                userCategory = user.userType;
+                data = await contract.getRegistryOffice(accountPublicAddress);
+                break;
+              case UserType.Citizen:
+                userCategory = user.userType;
+                data = await contract.getCitizen(accountPublicAddress);
+                break;
+              case UserType.Admin:
+                userCategory = user.userType;
+                data = await contract.getAdmin(accountPublicAddress);
+                break;
+              default:
+                break;
+            }
+            console.log(data);
+            dispatch({type: 'SET_USER_DATA', payload: {isConnected: user.exists, userType: userCategory, publicAddress: accountPublicAddress, data: data}});
+            setIsLoading(false);
+          } 
           setIsLoading(false);
-        } 
-        setIsLoading(false);
-      } else {
+        } else {
+          setIsLoading(false);
+        }
+        
+      } catch (e) {
+        console.log(e);
         setIsLoading(false);
       }
       }
@@ -147,7 +153,7 @@ function App() {
               }
               <Route path='/404' element={<ErrorPage />} />
               { (!state.userData.isConnected) &&
-                <Route path="*" element={<Navigate to="/404" replace />}/>
+                <Route path="*" element={<Navigate to="/" replace />}/>
               }
 
           </Routes>

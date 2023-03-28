@@ -79,16 +79,6 @@ export const checkWalletConnected = async () => {
   }
 }
 
-export const getUserRegistryOffice = async (accountConnected) => {
-  try {
-      const contract = await getUsersContract(false);
-      const office = await contract.getRegistryOffice(accountConnected);
-      return office;
-  } catch (e) {
-    throw new CustomError(e, 'error');
-  }
-}
-
 export const getUser = async (accountConnected) => {
   try {
       const contract = await getUsersContract(false);

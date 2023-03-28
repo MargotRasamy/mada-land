@@ -11,6 +11,7 @@ import cities from '../../../../data/citiesNames.json';
 import TableRegistryOfficers from './TableRegistryOfficers';
 import BackLink from '../../../BackLink';
 import CreateModal from './CreateModal';
+import CityFrame from '../../../CityFrame';
 
 const City = () => {
   const { cityId } = useParams();
@@ -54,6 +55,7 @@ const City = () => {
       }
   }
 
+
   const getCityName = (cityId) => {
     return cities[cityId];
   }
@@ -71,6 +73,17 @@ const City = () => {
       getRegistryOffices(); 
       setIsLoading(false);
     }
+
+    (async function() {
+
+      const contract = await getUsersContract();
+      contract.on("userCreated", (sender, userType) => {
+        setIsLoading(true);
+        console.log(sender, userType);
+        getRegistryOffices();
+        setIsLoading(false);
+      })
+    })();
   }, []);
 
   return (
@@ -84,22 +97,18 @@ const City = () => {
       <div className="app-content city">
         <BackLink link="/admin" />
         <h1 className='title'>City of : {getCityName(cityId)}</h1>
-        <div className='frame'>
-            <div className='banner-container'>
-              <img src={`/cities/${cityId}.jpg`}  alt="city-banner" />
-            </div>
-        </div>
+        <CityFrame cityId={cityId} />
 
         <CreateModal
           show={modalShow}
+          cityId={cityId}
           onHide={() => setModalShow(false)}
         />
         
         <div className="section">
-          <Button color="buttonMain" onClick={()=> {openModal()}} variant="contained">Add a new registration officer</Button>
-          <Search handleChange={handleSearchInput} />
-
           <div className='element'>
+            <Button color="buttonMain" onClick={()=> {openModal()}} variant="contained">Add a new registration officer</Button>
+            <Search placeholder="Search for a registry officer..." handleChange={handleSearchInput} />
             <TableRegistryOfficers registryOffices={registryOfficesByCityFiltered} />
           </div>
         </div>

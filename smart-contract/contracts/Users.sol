@@ -25,11 +25,15 @@ contract Users {
         address margotAddress = address(0x59C8261e1af50CB768d4bD2E33bB04EA5550449D);
         address krishnaAddress = address(0xB55E3856A42286370d4B863D9B3800c82d6f903b);
         address papaAddress = address(0x7d90737dA9C8674e8B05B1aa003ecD864bD4391b);
+        address faddress = address(0xDCE504d66F4F99e755Cd12FE873c802Ec10d49F5);
+        address fiaddress = address(0xEE6F043e2817cd12eFfe9CF31cDafAA60ddD927d);
         address mairieTana = address(0xDb08B146f6C7c76108a68911e482Dde78763eb3D);
         address mairieMoramanga = address(0x47f4B066566DDe1040C2e91A35D5f2Da6751c6b9);
         addCitizen(margotAddress, 'Margot', 'Rasamy');
-        addCitizen(krishnaAddress, 'Krishna', 'Rasamy');
-        addCitizen(papaAddress, 'Papa', 'Rasamy');
+        addCitizen(krishnaAddress, 'Andrea', 'Rakoto');
+        addCitizen(papaAddress, 'Tiana', 'Rasalama');
+        addCitizen(faddress, 'Tahina', 'Ramakaveo');
+        addCitizen(fiaddress, 'Tsiky', 'Rasalama');
         addRegistryOfficers(mairieTana, "101", margotAddress);
         addRegistryOfficers(mairieMoramanga, "514", krishnaAddress);
         addRegistryOfficers(mairieMoramanga, "514", papaAddress);
@@ -38,6 +42,8 @@ contract Users {
     address owner;
 
     enum UserType { Citizen, RegistryOffice, Admin }
+
+    event userCreated(address _sender, UserType _type);
 
     struct User {
         bool exists;
@@ -142,9 +148,16 @@ contract Users {
         // Add to address mapping
         registryOffices[_registryOfficeAddress] = newRegistryOffice;
         // Add to general user's list
-        User memory newUser = User(true, UserType.Admin);
-        allUsers[_registryOfficeAddress] = newUser;
+        // User memory newUser = User(true, UserType.Admin);
+        // allUsers[_registryOfficeAddress] = newUser;
+        createUser(UserType.RegistryOffice, _registryOfficeAddress);
         return newRegistryOffice;
+    }
+
+    function createUser(UserType userType, address userAddress) public {
+        User memory newUser = User(true, userType);
+        allUsers[userAddress] = newUser;
+        emit userCreated(msg.sender, userType); 
     }
 
 
@@ -188,13 +201,18 @@ contract Users {
         return _address;
     }
 
-    function getRegistryOfficeByAddress(address _officeAddress) public view returns (RegistryOffice memory) {
+    function getRegistryOffice(address _officeAddress) public view returns (RegistryOffice memory) {
         require(address(_officeAddress) != address(0));
         return registryOffices[_officeAddress];
     }
 
     //check if user exists and get user's type
     function getUser(address userAdd) public view returns (User memory) {
+        require(address(userAdd) != address(0));
+        return allUsers[userAdd];
+    }
+
+    function deleteUser(address userAdd) public view returns (User memory) {
         require(address(userAdd) != address(0));
         return allUsers[userAdd];
     }
