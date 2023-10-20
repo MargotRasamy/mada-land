@@ -25,7 +25,7 @@ const LandingPage = () => {
         if (user.exists) {
           switch (user.userType) {
             case UserType.RegistryOffice:
-              data = await contract.getRegistryOffice(accountPublicAddress);
+              data = await contract.getCityRepresentative(accountPublicAddress);
               userCategory = user.userType;
               redirectLink = '/registry-office';
               break;

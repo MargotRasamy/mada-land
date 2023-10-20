@@ -32,7 +32,7 @@ const RegistryOfficeApp = () => {
       <div className="app-content registry-office-app">
         <h1 className='title'>Land registration administration</h1>
         <h3>City : <strong>{getCityName(state.userData.data.cityID)}</strong></h3>
-        <h5>Welcome registry officer <strong>{state.userData.data.citizenship.firstname} {state.userData.data.citizenship.lastname}</strong> !</h5>
+        <h5>Welcome City representative <strong>{state.userData.data.citizenship.firstname} {state.userData.data.citizenship.lastname}</strong> !</h5>
         {/* <RegistrationRecap /> */}
         <CityFrame cityId={state.userData.data.cityID} />
         

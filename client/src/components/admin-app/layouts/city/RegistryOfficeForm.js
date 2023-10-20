@@ -67,7 +67,7 @@ const MovieForm = ({closeModal, cityId}) => {
                 dispatch({type: 'ADD_NOTIFICATION', payload: {
                   message: 'Transaction pending !',
                   severity: 'success',
-                  title: 'Registry office creation',
+                  title: 'Communal representative creation',
                 }});
             } catch (e) {
                 setErrorMessage(e);
@@ -79,7 +79,7 @@ const MovieForm = ({closeModal, cityId}) => {
     const createNewRegistryOffice = async (_rgPublicAddress, _cityCode, _citizenAddress) => {
         try {
           const contract = await getUsersContract(false);
-          const result = await contract.addRegistryOfficers(_rgPublicAddress, _cityCode, _citizenAddress);
+          const result = await contract.addCityRepresentative(_rgPublicAddress, _cityCode, _citizenAddress);
           return result;
         } catch (e) {
           console.log(e);
@@ -118,10 +118,10 @@ const MovieForm = ({closeModal, cityId}) => {
                         {errorMessage}
                     </Alert>
                 }   
-                <h5>New registry officer for the city of <strong>{getCityName()}</strong></h5>
-                <p>Create a new professionnal address for the registry officer and select the citizen in charge of the registration.</p>
+                <h5>New communal representative for the city of <strong>{getCityName()}</strong></h5>
+                <p>Create a new professionnal address for the communal representative and select the citizen in charge of the registration.</p>
                 <Form.Group className="my-3" controlId="rgPublicAddressForm">
-                    <Form.Label className='label'>Registration office public address</Form.Label>
+                    <Form.Label className='label'>Communal representative public address</Form.Label>
                     <Form.Control 
                         required={true}
                         type='text'
@@ -130,7 +130,7 @@ const MovieForm = ({closeModal, cityId}) => {
                         onChange={event => setRgPublicAddress(event.target.value)}
                     />
                     <Form.Control.Feedback type="invalid">
-                        Please enter a public address for the registry office
+                        Please enter a public address for the communal representative
                     </Form.Control.Feedback>
                 </Form.Group>
                 <Form.Group className="my-3" controlId="citizenPublicAddressForm">
@@ -142,7 +142,7 @@ const MovieForm = ({closeModal, cityId}) => {
                         })}
                     </Form.Select>
                     <Form.Control.Feedback type="invalid">
-                        Please enter a public address for the registry office
+                        Please enter a public address for the communal representative
                     </Form.Control.Feedback>
                 </Form.Group>
                 {/* <Form.Group className="my-3" controlId="citizenPublicAddressForm">
@@ -155,11 +155,11 @@ const MovieForm = ({closeModal, cityId}) => {
                         onChange={event => setCitizenPublicAddress(event.target.value)}
                     />
                     <Form.Control.Feedback type="invalid">
-                        Please enter a public address for the registry office
+                        Please enter a public address for the communal representative
                     </Form.Control.Feedback>       
                 </Form.Group> */}
 
-                <Button type="submit" color="buttonMain" variant="contained">Add a new registration officer</Button>
+                <Button type="submit" color="buttonMain" variant="contained">Add a new communal representative</Button>
             
             </Form>
 

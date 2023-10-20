@@ -36,7 +36,7 @@ function TableRegistryOfficers({registryOffices}) {
             );
       
           }) : <tr>
-              <td>No registry office yet for this city.</td>
+              <td>No communal representative yet for this city.</td>
               <td></td>
               <td></td>
               <td></td>

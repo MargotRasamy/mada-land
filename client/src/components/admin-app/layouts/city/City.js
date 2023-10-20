@@ -33,10 +33,10 @@ const City = () => {
     setRegistryOfficesByCityFiltered(data);
   }
 
-  const getRegistryOffices = async () => {
+  const getCityRepresentatives = async () => {
       try {
         const contract = await getUsersContract();
-        const res = await contract.getRegistryOffices();
+        const res = await contract.getCityRepresentatives();
         dispatch({type: 'SET_REGISTRY_OFFICE', payload: res});
         if (res.length > 0) {
           let registryOfficeCity = res.filter((registryOffice)=> {return registryOffice.cityID === cityId});
@@ -50,7 +50,7 @@ const City = () => {
           dispatch({type: 'ADD_NOTIFICATION', payload: {
               message: e.message,
               severity: e.type,
-              title: 'Registry office display fail',
+              title: 'Communal representative display fail',
           }});
       }
   }
@@ -70,7 +70,7 @@ const City = () => {
 
   useEffect(() => {
     if (state.userData.isConnected) {
-      getRegistryOffices(); 
+      getCityRepresentatives(); 
       setIsLoading(false);
     }
 
@@ -80,7 +80,7 @@ const City = () => {
       contract.on("userCreated", (sender, userType) => {
         setIsLoading(true);
         console.log(sender, userType);
-        getRegistryOffices();
+        getCityRepresentatives();
         setIsLoading(false);
       })
     })();
@@ -107,8 +107,8 @@ const City = () => {
         
         <div className="section">
           <div className='element'>
-            <Button color="buttonMain" onClick={()=> {openModal()}} variant="contained">Add a new registration officer</Button>
-            <Search placeholder="Search for a registry officer..." handleChange={handleSearchInput} />
+            <Button color="buttonMain" onClick={()=> {openModal()}} variant="contained">Add a new communal representative</Button>
+            <Search placeholder="Search for a communal representative..." handleChange={handleSearchInput} />
             <TableRegistryOfficers registryOffices={registryOfficesByCityFiltered} />
           </div>
         </div>

@@ -22,26 +22,26 @@ contract Users {
         addCity("604"); 
         addCity("515");    
         addCity("207");
-        address margotAddress = address(0x59C8261e1af50CB768d4bD2E33bB04EA5550449D);
-        address krishnaAddress = address(0xB55E3856A42286370d4B863D9B3800c82d6f903b);
-        address papaAddress = address(0x7d90737dA9C8674e8B05B1aa003ecD864bD4391b);
-        address faddress = address(0xDCE504d66F4F99e755Cd12FE873c802Ec10d49F5);
-        address fiaddress = address(0xEE6F043e2817cd12eFfe9CF31cDafAA60ddD927d);
-        address mairieTana = address(0xDb08B146f6C7c76108a68911e482Dde78763eb3D);
-        address mairieMoramanga = address(0x47f4B066566DDe1040C2e91A35D5f2Da6751c6b9);
-        addCitizen(margotAddress, 'Margot', 'Rasamy');
-        addCitizen(krishnaAddress, 'Andrea', 'Rakoto');
-        addCitizen(papaAddress, 'Tiana', 'Rasalama');
-        addCitizen(faddress, 'Tahina', 'Ramakaveo');
-        addCitizen(fiaddress, 'Tsiky', 'Rasalama');
-        addRegistryOfficers(mairieTana, "101", margotAddress);
-        addRegistryOfficers(mairieMoramanga, "514", krishnaAddress);
-        addRegistryOfficers(mairieMoramanga, "514", papaAddress);
+        // address margotAddress = address(0x59C8261e1af50CB768d4bD2E33bB04EA5550449D);
+        // address krishnaAddress = address(0xB55E3856A42286370d4B863D9B3800c82d6f903b);
+        // address papaAddress = address(0x7d90737dA9C8674e8B05B1aa003ecD864bD4391b);
+        // address faddress = address(0xDCE504d66F4F99e755Cd12FE873c802Ec10d49F5);
+        // address fiaddress = address(0xEE6F043e2817cd12eFfe9CF31cDafAA60ddD927d);
+        // address mairieTana = address(0xDb08B146f6C7c76108a68911e482Dde78763eb3D);
+        // address mairieMoramanga = address(0x47f4B066566DDe1040C2e91A35D5f2Da6751c6b9);
+        // addCitizen(margotAddress, 'Margot', 'Rasamy');
+        // addCitizen(krishnaAddress, 'Andrea', 'Rakoto');
+        // addCitizen(papaAddress, 'Tiana', 'Rasalama');
+        // addCitizen(faddress, 'Tahina', 'Ramakaveo');
+        // addCitizen(fiaddress, 'Tsiky', 'Rasalama');
+        // addCityRepresentative(mairieTana, "101", margotAddress);
+        // addCityRepresentative(mairieMoramanga, "514", krishnaAddress);
+        // addCityRepresentative(mairieMoramanga, "514", papaAddress);
     }
 
     address owner;
 
-    enum UserType { Citizen, RegistryOffice, Admin }
+    enum UserType { Citizen, CityRepresentative, Admin }
 
     event userCreated(address _sender, UserType _type);
 
@@ -52,7 +52,7 @@ contract Users {
 
     //GET EACH TYPE OF USER INFORMATIONS
 
-    // can add new registry office and new citizens
+    // can add new city representatives and new citizens
     struct Admin {
         address publicAddress;
         string countryCode;
@@ -66,7 +66,7 @@ contract Users {
     }
 
     // can add new citizens
-    struct RegistryOffice {
+    struct CityRepresentative {
         address publicAddress;
         string cityID;
         Citizen citizenship;
@@ -88,7 +88,7 @@ contract Users {
     // List of citizens
     Citizen[] citizensList;
     // List of Registry Offices
-    RegistryOffice[] registryOfficesList;
+    CityRepresentative[] cityRepresentativesList;
     // List of admins
     Admin[] adminsList;
 
@@ -98,7 +98,7 @@ contract Users {
     mapping (address => User) allUsers;
     //-----
 
-    mapping (address => RegistryOffice) public registryOffices;
+    mapping (address => CityRepresentative) public cityRepresentatives;
     mapping (address => Citizen) public citizens;
     mapping (address => Admin) public admins;
 
@@ -118,8 +118,8 @@ contract Users {
         return citizensList;
     }
 
-    function getRegistryOffices() public view returns (RegistryOffice[] memory) {
-        return registryOfficesList;
+    function getCityRepresentatives() public view returns (CityRepresentative[] memory) {
+        return cityRepresentativesList;
     }
 
     function getCities() public view returns (string[] memory) {
@@ -132,26 +132,26 @@ contract Users {
         return _cityID;
     }
 
-    function addRegistryOfficers(address _registryOfficeAddress, string memory _cityID, address _citizenAddress) public returns (RegistryOffice memory) {
-        require(allUsers[msg.sender].userType == UserType.Admin, "Registry officers can only be created by admin.");
+    function addCityRepresentative(address _cityRepAddress, string memory _cityID, address _citizenAddress) public returns (CityRepresentative memory) {
+        require(allUsers[msg.sender].userType == UserType.Admin, "City representatives can only be created by admin.");
         // check the address validity
-        require(address(_registryOfficeAddress) != address(0), 'Must enter a registry office address');
+        require(address(_cityRepAddress) != address(0), 'Must enter a city representative address');
         // check the citizen address validity
         require(address(_citizenAddress) != address(0), 'Must enter a valid citizen address');
         require(allUsers[_citizenAddress].userType == UserType.Citizen, 'Must enter a valid citizen address');
         // Get the linked citizen
         Citizen memory citizenInCharge = getCitizen(_citizenAddress);
-        // Create new registry office
-        RegistryOffice memory newRegistryOffice = RegistryOffice(_registryOfficeAddress, _cityID, citizenInCharge);
-        // Add to registry office list
-        registryOfficesList.push(newRegistryOffice);
+        // Create new city representative
+        CityRepresentative memory newCityRep = CityRepresentative(_cityRepAddress, _cityID, citizenInCharge);
+        // Add to city representatives list
+        cityRepresentativesList.push(newCityRep);
         // Add to address mapping
-        registryOffices[_registryOfficeAddress] = newRegistryOffice;
+        cityRepresentatives[_cityRepAddress] = newCityRep;
         // Add to general user's list
         // User memory newUser = User(true, UserType.Admin);
-        // allUsers[_registryOfficeAddress] = newUser;
-        createUser(UserType.RegistryOffice, _registryOfficeAddress);
-        return newRegistryOffice;
+        // allUsers[_cityRepAddress] = newUser;
+        createUser(UserType.CityRepresentative, _cityRepAddress);
+        return newCityRep;
     }
 
     function createUser(UserType userType, address userAddress) public {
@@ -201,9 +201,9 @@ contract Users {
         return _address;
     }
 
-    function getRegistryOffice(address _officeAddress) public view returns (RegistryOffice memory) {
-        require(address(_officeAddress) != address(0));
-        return registryOffices[_officeAddress];
+    function getCityRepresentative(address _address) public view returns (CityRepresentative memory) {
+        require(address(_address) != address(0));
+        return cityRepresentatives[_address];
     }
 
     //check if user exists and get user's type

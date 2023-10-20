@@ -81,7 +81,7 @@ function App() {
             switch (user.userType) {
               case UserType.RegistryOffice:
                 userCategory = user.userType;
-                data = await contract.getRegistryOffice(accountPublicAddress);
+                data = await contract.getCityRepresentative(accountPublicAddress);
                 break;
               case UserType.Citizen:
                 userCategory = user.userType;
