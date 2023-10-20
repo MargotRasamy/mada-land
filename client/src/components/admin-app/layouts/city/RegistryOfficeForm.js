@@ -126,7 +126,7 @@ const MovieForm = ({closeModal, cityId}) => {
                         required={true}
                         type='text'
                         name='rgPublicAddress'
-                        placeholder='Enter a registration office public address'
+                        placeholder="Enter a communal representative's public address"
                         onChange={event => setRgPublicAddress(event.target.value)}
                     />
                     <Form.Control.Feedback type="invalid">

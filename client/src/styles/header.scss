@@ -16,10 +16,10 @@
                 max-width: 30%;
             }
             @include small {
-                max-width: 50%;
-            }
-            @include small {
                 max-width: 40%;
+            }
+            @include mobile {
+                max-width: 50%;
             }
         }
     }

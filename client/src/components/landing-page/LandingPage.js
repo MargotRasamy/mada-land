@@ -6,6 +6,7 @@ import { connectWallet, getUsersContract } from '../../context/utils/ContractsRe
 import { useNavigate } from "react-router-dom";
 import { UserType } from '../../context/utils/UserType';
 import LoaderSpinner from '../LoaderSpinner';
+import countryBanner from '../../assets/madaland.jpeg';
 
 const LandingPage = () => {
 
@@ -120,16 +121,42 @@ const LandingPage = () => {
                 isLoading ?  
                 <div className="app-content">
                     <LoaderSpinner />
-                </div> 
+                </div>
                 :
                 <div className="app-content landing-page">
-                    <h1 className='title'>Choose your platform</h1>
-                    <p>Which type of user are you ?</p>
+                    <div className='banner'>
+                      <div className='banner-container'>
+                        <img src={countryBanner} alt="country-banner" />
+                      </div>
+                      <div className='banner-caption'>
+                        <h1 className='title'>Mada Land</h1>
+                        <p>Mada Land helps communes and regional domains to register landholdings in Madagascar.</p>
+                      </div>
+
+                    </div>
 
                     <div className="section choice-menu">
-                        <Button sx={{ mr: 2 }} color="buttonMain" onClick={() => {connectUserWallet()}} variant="contained">Registry office</Button>
+                      <div className='choice'>
+                        <span className='choice-container'>
+                          <p className='title'>Manage municipal representatives, lands and citizens</p>
+                          <p className='caption'>MadaLand gives you better visibility of the status of land ownership and registration applications in each commune.</p>
+                        </span>
+                        <Button sx={{ mr: 2 }} color="buttonMain" onClick={() => {connectUserWallet()}} variant="contained">Administrator</Button>
+                      </div>
+                      <div className='choice'>
+                        <span className='choice-container'>
+                          <p className='title'>Manage registration requests</p>
+                          <p className='caption'>Validate or reject property registration applications following local land recognitions</p>
+                        </span>
+                        <Button sx={{ mr: 2 }} color="buttonMain" onClick={() => {connectUserWallet()}} variant="contained">Communal representative</Button>
+                      </div>
+                      <div className='choice'>
+                        <span className='choice-container'>
+                          <p className='title'>Secure your lands and certificates proofs</p>
+                          <p className='caption'>Send registration requests and manage your land certificates</p>
+                        </span>
                         <Button sx={{ mr: 2 }} color="buttonMain" onClick={() => {connectUserWallet()}} variant="contained">Citizen</Button>
-                        <Button sx={{ mr: 2 }} color="buttonMain" onClick={() => {connectUserWallet()}} variant="contained">Admin</Button>
+                      </div>
                     </div>
                 </div>
             }    
